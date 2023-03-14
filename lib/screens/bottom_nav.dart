@@ -10,12 +10,13 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   static final List<Widget> _widgetOptions = <Widget>[
-    const HomePage(),
     const Text('Search'),
-    const Text('Tickets'),
-    const Text('Profile'),
+    const Text('Schedule'),
+    const HomePage(),
+    const Text('Members'),
+    const Text('Profile')
   ];
 
   void _onItemTapped(int index) {
@@ -34,24 +35,30 @@ class _BottomNavState extends State<BottomNav> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         elevation: 10,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedItemColor: Colors.blueGrey,
+        iconSize : 35,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedItemColor: Colors.green,
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: const Color(0xFF526480),
-        items: const [
+        items: const <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+              icon: Icon(FluentSystemIcons.ic_fluent_search_regular),
+              activeIcon: Icon(FluentSystemIcons.ic_fluent_search_filled),
+              label: "Explore",
+              ),
+          BottomNavigationBarItem(
+              icon: Icon(FluentSystemIcons.ic_fluent_calendar_regular),
+              activeIcon: Icon(FluentSystemIcons.ic_fluent_calendar_filled),
+              label: "Schedule"),
           BottomNavigationBarItem(
               icon: Icon(FluentSystemIcons.ic_fluent_home_regular),
               activeIcon: Icon(FluentSystemIcons.ic_fluent_home_filled),
               label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(FluentSystemIcons.ic_fluent_search_regular),
-              activeIcon: Icon(FluentSystemIcons.ic_fluent_search_filled),
-              label: "Search"),
-          BottomNavigationBarItem(
-              icon: Icon(FluentSystemIcons.ic_fluent_airplane_regular),
-              activeIcon: Icon(FluentSystemIcons.ic_fluent_airplane_filled),
-              label: "Ticket"),
+              icon: Icon(FluentSystemIcons.ic_fluent_people_regular),
+              activeIcon: Icon(FluentSystemIcons.ic_fluent_people_filled),
+              label: "Members"),
           BottomNavigationBarItem(
               icon: Icon(FluentSystemIcons.ic_fluent_person_regular),
               activeIcon: Icon(FluentSystemIcons.ic_fluent_person_filled),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jumuiya_app/screens/get_started.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
 import 'package:jumuiya_app/screens/bottom_nav.dart';
 
@@ -17,8 +18,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: primary,
+        backgroundColor: Colors.white,
       ),
-      home: const BottomNav(),
+
+      home: const GetStarted(),
     );
   }
 }
