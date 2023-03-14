@@ -229,6 +229,67 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.only(left: 10 , right: 10) ,
             child: Text("JM YA MT THERESIA WA MTOTO YESU MAGOMENI" , style: Styles.headLineStyle2, textAlign: TextAlign.center),
           ),
+          const Divider(
+            color: Colors.black, //color of divider
+            height: 5, //height spacing of divider
+            thickness: 2, //thickness of divier line
+            indent: 25, //spacing at the start of divider
+            endIndent: 25, //spacing at the end of divider
+          ),
+          const Gap(20),
+          Text("Upcoming Events" , style: Styles.headLineStyle3,),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 10),
+            child: Row(
+              children: [
+                Card(
+                  color : Colors.red,
+                  child: SizedBox(
+                    height: 120,
+                    width: size.width*0.5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          width: 50,
+                          height: 120,
+                          color: Colors.green,
+                          child: Text('31 JUN' , style: Styles.headLineStyle2, textAlign: TextAlign.center),
+                        ),
+                        VerticalDivider(
+                            color: Colors.black, //color of divider
+                            width: size.width*0.5, //height spacing of divider
+                            thickness: 2, //thickness of divier line
+                            indent: 0, //spacing at the start of divider
+                            endIndent: 0, //spacing at the end of divider
+
+                        ),
+                        Row( children: [
+                          Text("Weekly Mass" , )
+                        ],)
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  color : Colors.blue,
+                  child: SizedBox(
+                    height: 120,
+                    width: size.width*0.5,
+                  ),
+                ),
+                Card(
+                  color : Colors.green,
+                  child: SizedBox(
+                    height: 120,
+                    width: size.width*0.5,
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       )
     );
