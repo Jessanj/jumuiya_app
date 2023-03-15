@@ -22,4 +22,11 @@ class Styles {
   TextStyle(fontSize: 21, color: textColor, fontWeight: FontWeight.bold , );
   static TextStyle usernameStyle = TextStyle(
       fontSize: 20, color: Colors.grey.shade500, fontWeight: FontWeight.w500);
+  static TextStyle headLineStyle6 =
+  TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold);
+  static TextStyle headLineStyle1w =
+  TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold);
+  static TextStyle headLineStyle7 =
+  TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal );
+
 }

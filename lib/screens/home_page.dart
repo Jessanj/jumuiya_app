@@ -143,6 +143,7 @@ class _HomePageState extends State<HomePage> {
         child: LeftDrawer(),
       ),
       body: ListView(
+        scrollDirection: Axis.vertical,
         padding: const EdgeInsets.only(left: 8, right: 8),
         children: [
           const Gap(6),
@@ -237,7 +238,7 @@ class _HomePageState extends State<HomePage> {
             endIndent: 25, //spacing at the end of divider
           ),
           const Gap(20),
-          Text("Upcoming Events" , style: Styles.headLineStyle3,),
+          Text("Upcoming Events" , style: Styles.headLineStyle6, ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.only(left: 10),
@@ -248,29 +249,62 @@ class _HomePageState extends State<HomePage> {
                   child: SizedBox(
                     height: 120,
                     width: size.width*0.5,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          alignment: Alignment.center,
+                          alignment: Alignment.centerLeft,
+                          height: 50,
                           width: 50,
-                          height: 120,
-                          color: Colors.green,
-                          child: Text('31 JUN' , style: Styles.headLineStyle2, textAlign: TextAlign.center),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                  fit: BoxFit.fitHeight,
+                                  image: AssetImage('assets/images/tanzania.png')
+                              )
+                          ),
                         ),
-                        VerticalDivider(
-                            color: Colors.black, //color of divider
-                            width: size.width*0.5, //height spacing of divider
-                            thickness: 2, //thickness of divier line
-                            indent: 0, //spacing at the start of divider
-                            endIndent: 0, //spacing at the end of divider
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Good Morning',
+                              style : Styles.headLineStyle3,
+                            ),
+                            Text(
+                              'Good Morning',
+                              style : Styles.headLineStyle3,
+                            ),
+                          ],
+                        ),
 
-                        ),
-                        Row( children: [
-                          Text("Weekly Mass" , )
-                        ],)
                       ],
                     ),
+                    // Column(
+                      // children: [
+                      //   Row(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       Container(
+                      //         alignment: Alignment.center,
+                      //         width: 50,
+                      //         height: 12,
+                      //         color: Colors.green,
+                      //         child: Text('31 JUN' , style: Styles.headLineStyle2, textAlign: TextAlign.center),
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   Row(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      //       Container(
+                      //         color: Colors.yellow,
+                      //         alignment: Alignment.topCenter,
+                      //         child: Text("Weekly Mass" , style: Styles.headLineStyle6 , textAlign: TextAlign.end),
+                      //       ),
+                      //   ],)
+                      // ],
+                    // ),
                   ),
                 ),
                 Card(
@@ -286,6 +320,335 @@ class _HomePageState extends State<HomePage> {
                     height: 120,
                     width: size.width*0.5,
                   ),
+                ),
+              ],
+            ),
+          ),
+          const Gap(10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Text("Donate", style: Styles.headLineStyle6,),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color : Colors.blue,
+                    child: SizedBox(
+                      height: 50,
+                      width: 90,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        height: 15,
+                        width: 15,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                fit: BoxFit.fitHeight,
+                                image: AssetImage('assets/images/donatelove.png')
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text("Contribute", style: Styles.headLineStyle6,),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color : Colors.blue,
+                    child: SizedBox(
+                      height: 50,
+                      width: 90,
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        height: 15,
+                        width: 15,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                                fit: BoxFit.fitHeight,
+                                image: AssetImage('assets/images/coin.png')
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text("Shares", style: Styles.headLineStyle6,),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color : Colors.blue,
+                    child: SizedBox(
+                      height: 50,
+                      width: 90,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Card(
+                          color: Colors.green,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Text('14' , style: Styles.headLineStyle1w,) ,
+                          ), 
+                        )
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const Gap(10),
+          Text("Meeting Attendance" , style: Styles.headLineStyle6, ),
+          const Gap(5),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color : Colors.grey.shade500,
+                      child: SizedBox(
+                        height: 152,
+                        width: 100,
+                        child: Container(
+                            padding: const EdgeInsets.all(3),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  color: Colors.green,
+                                  child: Text('12 JUN' , style: Styles.headLineStyle2,),
+                                ),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 5, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Family" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("20"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Members" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("200"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("New" , style: Styles.headLineStyle7,),
+                                Text("5")
+
+                              ],
+                            )
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color : Colors.grey.shade500,
+                      child: SizedBox(
+                        height: 152,
+                        width: 100,
+                        child: Container(
+                            padding: const EdgeInsets.all(3),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  color: Colors.green,
+                                  child: Text('17 JUN' , style: Styles.headLineStyle2,),
+                                ),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 5, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Family" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("2"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Members" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("20"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("New" , style: Styles.headLineStyle7,),
+                                Text("1")
+
+                              ],
+                            )
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color : Colors.grey.shade500,
+                      child: SizedBox(
+                        height: 152,
+                        width: 100,
+                        child: Container(
+                            padding: const EdgeInsets.all(3),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  color: Colors.green,
+                                  child: Text('01 JUl' , style: Styles.headLineStyle2,),
+                                ),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 5, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Family" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("5"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Members" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("10"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("New" , style: Styles.headLineStyle7,),
+                                Text("3")
+
+                              ],
+                            )
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color : Colors.grey.shade500,
+                      child: SizedBox(
+                        height: 152,
+                        width: 100,
+                        child: Container(
+                            padding: const EdgeInsets.all(3),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 100,
+                                  color: Colors.green,
+                                  child: Text('06 AUG' , style: Styles.headLineStyle2,),
+                                ),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 5, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Family" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("10"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("Members" , style: Styles.headLineStyle7,),
+                                const Gap(10),
+                                Text("20"),
+                                const Divider(
+                                  color: Colors.black, //color of divider
+                                  height: 10, //height spacing of divider
+                                  thickness: 2, //thickness of divier line
+                                  indent: 0, //spacing at the start of divider
+                                  endIndent: 0, //spacing at the end of divider
+                                ),
+                                Text("New" , style: Styles.headLineStyle7,),
+                                Text("5")
+
+                              ],
+                            )
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
