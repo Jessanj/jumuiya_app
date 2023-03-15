@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jumuiya_app/screens/home_page.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 
+import 'members_page.dart';
+
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 
@@ -15,7 +17,7 @@ class _BottomNavState extends State<BottomNav> {
     const Text('Search'),
     const Text('Schedule'),
     const HomePage(),
-    const Text('Members'),
+    const MembersPage(),
     const Text('Profile')
   ];
 

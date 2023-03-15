@@ -426,7 +426,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 152,
+                        height: 150,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),
@@ -441,34 +441,33 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 5, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Family" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("20"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Members" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("200"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("New" , style: Styles.headLineStyle7,),
                                 Text("5")
-
                               ],
                             )
                         ),
@@ -484,7 +483,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 152,
+                        height: 150,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),
@@ -499,27 +498,27 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 5, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Family" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("2"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Members" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("20"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
@@ -542,7 +541,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 152,
+                        height: 150,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),
@@ -557,27 +556,27 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 5, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Family" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("5"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Members" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("10"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
@@ -600,7 +599,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 152,
+                        height: 150,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),
@@ -615,27 +614,27 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 5, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Family" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("10"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
                                 ),
                                 Text("Members" , style: Styles.headLineStyle7,),
-                                const Gap(10),
+                                const Gap(5),
                                 Text("20"),
                                 const Divider(
                                   color: Colors.black, //color of divider
-                                  height: 10, //height spacing of divider
+                                  height: 2, //height spacing of divider
                                   thickness: 2, //thickness of divier line
                                   indent: 0, //spacing at the start of divider
                                   endIndent: 0, //spacing at the end of divider
