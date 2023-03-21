@@ -39,6 +39,9 @@ dependencies:
   fluentui_icons: ^1.0.0
   gap: ^2.0.0
   carousel_slider: ^4.2.1
+  calendar_view: ^1.0.2
+  intl: ^0.18.0
+  flutter_colorpicker: ^1.0.3
 
 dev_dependencies:
   flutter_test:

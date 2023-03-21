@@ -241,84 +241,276 @@ class _HomePageState extends State<HomePage> {
           Text("Upcoming Events" , style: Styles.headLineStyle6, ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10 , top: 5 , right: 10),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Card(
-                  color : Colors.red,
-                  child: SizedBox(
-                    height: 120,
-                    width: size.width*0.5,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(right: 5),
+                  height: 120,
+                  width: size.width*0.5,
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  decoration: const BoxDecoration(
+                      color: Colors.lightBlueAccent,
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(10) , top: Radius.circular(10) )
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: AssetImage('assets/images/tanzania.png')
-                              )
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              'Good Morning',
-                              style : Styles.headLineStyle3,
-                            ),
-                            Text(
-                              'Good Morning',
-                              style : Styles.headLineStyle3,
-                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 2 , right: 2),
+                              child: Text(
+                                "Weekly Mass",
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            )
                           ],
                         ),
 
-                      ],
-                    ),
-                    // Column(
-                      // children: [
-                      //   Row(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Container(
-                      //         alignment: Alignment.center,
-                      //         width: 50,
-                      //         height: 12,
-                      //         color: Colors.green,
-                      //         child: Text('31 JUN' , style: Styles.headLineStyle2, textAlign: TextAlign.center),
-                      //       ),
-                      //     ],
-                      //   ),
-                      //   Row(
-                      //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //     children: [
-                      //       Container(
-                      //         color: Colors.yellow,
-                      //         alignment: Alignment.topCenter,
-                      //         child: Text("Weekly Mass" , style: Styles.headLineStyle6 , textAlign: TextAlign.end),
-                      //       ),
-                      //   ],)
-                      // ],
-                    // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                height: 80,
+                                alignment: Alignment.center,
+                                child: Card(
+                                  color: Colors.green,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('14' , style: Styles.headLineStyle2w,) ,
+                                        Text('JUN' , style: Styles.headLineStyle2w,) ,
+                                      ],
+                                    ),
+                                  ),
+                                )
+                            ),
+                            const Gap(5),
+                            Expanded(
+                                child: Text(
+                                  "ibada  itaanza saa 2 kamlli  wahini wote.",
+                                  style: const TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14
+                                  ),
+                                )
+                            )
+                          ],
+                        ),
+
+                      ]
                   ),
                 ),
-                Card(
-                  color : Colors.blue,
-                  child: SizedBox(
-                    height: 120,
-                    width: size.width*0.5,
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(right: 5),
+                  height: 120,
+                  width: size.width*0.5,
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  decoration: const BoxDecoration(
+                      color: Colors.lightBlueAccent,
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(10) , top: Radius.circular(10) )
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 2 , right: 2),
+                              child: Text(
+                                "Weekly Mass",
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                height: 80,
+                                alignment: Alignment.center,
+                                child: Card(
+                                  color: Colors.green,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('14' , style: Styles.headLineStyle2w,) ,
+                                        Text('JUN' , style: Styles.headLineStyle2w,) ,
+                                      ],
+                                    ),
+                                  ),
+                                )
+                            ),
+                            const Gap(5),
+                            Expanded(
+                                child: Text(
+                                  "ibada  itaanza saa 2 kamlli  wahini wote.",
+                                  style: const TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14
+                                  ),
+                                )
+                            )
+                          ],
+                        ),
+
+                      ]
                   ),
                 ),
-                Card(
-                  color : Colors.green,
-                  child: SizedBox(
-                    height: 120,
-                    width: size.width*0.5,
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(right: 5),
+                  height: 120,
+                  width: size.width*0.5,
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  decoration: const BoxDecoration(
+                      color: Colors.lightBlueAccent,
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(10) , top: Radius.circular(10) )
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 2 , right: 2),
+                              child: Text(
+                                "Weekly Mass",
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                height: 80,
+                                alignment: Alignment.center,
+                                child: Card(
+                                  color: Colors.green,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('14' , style: Styles.headLineStyle2w,) ,
+                                        Text('JUN' , style: Styles.headLineStyle2w,) ,
+                                      ],
+                                    ),
+                                  ),
+                                )
+                            ),
+                            const Gap(5),
+                            Expanded(
+                                child: Text(
+                                  "ibada  itaanza saa 2 kamlli  wahini wote.",
+                                  style: const TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14
+                                  ),
+                                )
+                            )
+                          ],
+                        ),
+
+                      ]
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(right: 5),
+                  height: 120,
+                  width: size.width*0.5,
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  decoration: const BoxDecoration(
+                      color: Colors.lightBlueAccent,
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(10) , top: Radius.circular(10) )
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 2 , right: 2),
+                              child: Text(
+                                "Weekly Mass",
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                height: 80,
+                                alignment: Alignment.center,
+                                child: Card(
+                                  color: Colors.green,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('14' , style: Styles.headLineStyle2w,) ,
+                                        Text('JUN' , style: Styles.headLineStyle2w,) ,
+                                      ],
+                                    ),
+                                  ),
+                                )
+                            ),
+                            const Gap(5),
+                            Expanded(
+                                child: Text(
+                                  "ibada  itaanza saa 2 kamlli  wahini wote.",
+                                  style: const TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14
+                                  ),
+                                )
+                            )
+                          ],
+                        ),
+
+                      ]
                   ),
                 ),
               ],
@@ -426,7 +618,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 150,
+                        height: 149,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),
@@ -483,7 +675,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 150,
+                        height: 149,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),
@@ -541,7 +733,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 150,
+                        height: 149,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),
@@ -599,7 +791,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color : Colors.grey.shade500,
                       child: SizedBox(
-                        height: 150,
+                        height: 149,
                         width: 100,
                         child: Container(
                             padding: const EdgeInsets.all(3),

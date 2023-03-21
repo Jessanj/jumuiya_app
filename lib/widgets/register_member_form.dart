@@ -83,6 +83,14 @@ class _RegisterMemberFormState extends State<RegisterMemberForm> {
             hintText: 'Enter Your ID',
           ),
         ),
+        const  Gap(10),
+        TextField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: 'Address',
+            hintText: 'Enter Your ID',
+          ),
+        ),
         const Gap(10),
         Container(
           width: size.width*0.5,

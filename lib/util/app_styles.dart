@@ -26,6 +26,8 @@ class Styles {
   TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold);
   static TextStyle headLineStyle1w =
   TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold);
+  static TextStyle headLineStyle2w =
+  TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
   static TextStyle headLineStyle7 =
   TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal );
 
