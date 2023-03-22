@@ -10,24 +10,22 @@ import '../util/app_colors.dart';
 import '../widgets/add_event_widget.dart';
 import '../widgets/month_view_widget.dart';
 import 'create_event_page.dart';
-import 'month_view_page.dart';
 
 DateTime get _now => DateTime.now();
 
-class SchedulePage extends StatefulWidget {
-  const SchedulePage({Key? key}) : super(key: key);
+class MonthViewPage extends StatefulWidget {
+  const MonthViewPage({Key? key}) : super(key: key);
 
   @override
-  State<SchedulePage> createState() => _SchedulePageState();
+  State<MonthViewPage> createState() => _MonthViewPageState();
 }
 
-class _SchedulePageState extends State<SchedulePage> {
+class _MonthViewPageState extends State<MonthViewPage> {
   @override
   Widget build(BuildContext context) {
     return  CalendarControllerProvider<Event>(
       controller: EventController<Event>()..addAll(_events),
       child: MaterialApp(
-        title: 'Flutter Calendar Page Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light(),
         scrollBehavior: ScrollBehavior().copyWith(
@@ -60,37 +58,7 @@ class _SchedulePageState extends State<SchedulePage> {
           ),
           body: Padding(
             padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => context.pushRoute(CreateEventPage()),
-                      child: const Text("Add Event"),
-                    ),
-                    const Gap(5),
-                    ElevatedButton(
-                      onPressed: () => context.pushRoute(MonthViewPage()),
-                      child: const Text("Month View"),
-                    ),
-                    const Gap(5),
-                    ElevatedButton(
-                      onPressed: () => context.pushRoute(DayViewPageDemo()),
-                      child: const Text("Day View"),
-                    ),
-                    const Gap(5),
-                    ElevatedButton(
-                      onPressed: () => context.pushRoute(WeekViewDemo()),
-                      child:  const Text("Week View"),
-                    ),
-
-                  ],
-                ),
-                // MonthViewWidget(),
-              ],
-            ),
+            child: MonthViewWidget(),
           ),
         ),
       ),
