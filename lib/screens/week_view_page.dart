@@ -7,9 +7,7 @@ import 'package:jumuiya_app/model/event.dart';
 import 'package:jumuiya_app/util/extensions.dart';
 
 import '../util/app_colors.dart';
-import '../widgets/add_event_widget.dart';
-import '../widgets/month_view_widget.dart';
-import 'create_event_page.dart';
+import '../widgets/week_view_widget.dart';
 
 DateTime get _now => DateTime.now();
 
@@ -48,7 +46,7 @@ class _WeekViewPageState extends State<WeekViewPage> {
               ),
             ),
             title: Text(
-              "Create New Event",
+              "Weekly Event View",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20.0,
@@ -58,7 +56,13 @@ class _WeekViewPageState extends State<WeekViewPage> {
           ),
           body: Padding(
             padding: EdgeInsets.all(20.0),
-            child: WeekViewWidget(),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                WeekViewWidget(),
+              ],
+
+            )
           ),
         ),
       ),

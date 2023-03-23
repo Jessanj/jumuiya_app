@@ -4,13 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:gap/gap.dart';
 import 'package:jumuiya_app/model/event.dart';
+import 'package:jumuiya_app/screens/week_view_page.dart';
 import 'package:jumuiya_app/util/extensions.dart';
 
 import '../util/app_colors.dart';
+import '../util/app_layouts.dart';
 import '../widgets/add_event_widget.dart';
 import '../widgets/month_view_widget.dart';
 import 'create_event_page.dart';
 import 'month_view_page.dart';
+
+import '../widgets/left_drawer.dart';
+import 'notifications_page.dart';
+
+class LangItem {
+  const LangItem(this.name,this.icon);
+  final String name;
+  //final ImageIcon icon;
+  final Icon icon;
+}
 
 DateTime get _now => DateTime.now();
 
@@ -22,8 +34,16 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  List<LangItem> lang = [
+    const LangItem('ENG', Icon(Icons.flag),),
+    const LangItem('KISW', Icon(Icons.flag_circle_outlined),),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final size  =  AppLayouts.getSize(context);
+    LangItem defaultLang = lang.first;
+
     return  CalendarControllerProvider<Event>(
       controller: EventController<Event>()..addAll(_events),
       child: MaterialApp(
@@ -39,31 +59,55 @@ class _SchedulePageState extends State<SchedulePage> {
         ),
         home: Scaffold(
           appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            centerTitle: false,
-            leading: IconButton(
-              onPressed: context.pop,
-              icon: Icon(
-                Icons.arrow_back,
-                color: AppColors.black,
+            actions: <Widget>[
+              DropdownButton(
+                value: defaultLang ,
+                style: const TextStyle(color: Colors.deepPurple),
+                items: lang.map((LangItem lang) {
+                  return DropdownMenuItem(
+                    value: lang,
+                    child: Row(
+                      children: [
+                        lang.icon,
+                        const SizedBox(width: 10, ),
+                        Text(
+                          lang.name,
+                          style:  const TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    defaultLang = value!;
+                  });
+                },
               ),
-            ),
-            title: Text(
-              "Create New Event",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+              const SizedBox(width: 10, ),
+              IconButton(
+                icon: const Icon(Icons.add_alert),
+                tooltip: 'Notifications',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NotificationPage()),
+                  );
+                },
               ),
-            ),
+            ],
+          ),
+          drawer:  const Drawer(
+            // Add a ListView to the drawer. This ensures the user can scroll
+            // through the options in the drawer if there isn't enough vertical
+            // space to fit everything.
+            child: LeftDrawer(),
           ),
           body: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: [
                 Row(
-                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
@@ -77,12 +121,7 @@ class _SchedulePageState extends State<SchedulePage> {
                     ),
                     const Gap(5),
                     ElevatedButton(
-                      onPressed: () => context.pushRoute(DayViewPageDemo()),
-                      child: const Text("Day View"),
-                    ),
-                    const Gap(5),
-                    ElevatedButton(
-                      onPressed: () => context.pushRoute(WeekViewDemo()),
+                      onPressed: () => context.pushRoute(WeekViewPage()),
                       child:  const Text("Week View"),
                     ),
 

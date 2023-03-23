@@ -7,9 +7,7 @@ import 'package:jumuiya_app/model/event.dart';
 import 'package:jumuiya_app/util/extensions.dart';
 
 import '../util/app_colors.dart';
-import '../widgets/add_event_widget.dart';
 import '../widgets/month_view_widget.dart';
-import 'create_event_page.dart';
 
 DateTime get _now => DateTime.now();
 
@@ -48,7 +46,7 @@ class _MonthViewPageState extends State<MonthViewPage> {
               ),
             ),
             title: Text(
-              "Create New Event",
+              "Monthly View Event",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20.0,

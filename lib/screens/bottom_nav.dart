@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jumuiya_app/screens/home_page.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:jumuiya_app/screens/schedule_page.dart';
+import 'package:jumuiya_app/screens/user_profile_page.dart';
 
+import 'explore_page.dart';
 import 'members_page.dart';
 
 class BottomNav extends StatefulWidget {
@@ -15,11 +17,11 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 2;
   static final List<Widget> _widgetOptions = <Widget>[
-    const Text('Search'),
+    const OverlayExample(),
     const SchedulePage(),
     const HomePage(),
     const MembersPage(),
-    const Text('Profile')
+    const UserProfilePage(),
   ];
 
   void _onItemTapped(int index) {
