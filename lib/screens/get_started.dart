@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:jumuiya_app/screens/login_page.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -36,12 +37,12 @@ class _GetStartedState extends State<GetStarted> {
           Container(
             padding: EdgeInsets.only(bottom: 20),
             alignment: Alignment.center,
-            child: Text('we welcome you' , style: Styles.headLineStyle1,),
+            child: Text(AppLocalizations.of(context)!.welcome , style: Styles.headLineStyle1,),
           ),
-          Container(
+         Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.only(bottom: 20),
-            child: Text("we welcome you okowq" , style: Styles.headLineStyle2),
+            child: Text(AppLocalizations.of(context)!.community_quote , style: Styles.headLineStyle2, textAlign: TextAlign.center),
           ),
           SizedBox(
             width: size.width *0.8 ,
@@ -57,13 +58,13 @@ class _GetStartedState extends State<GetStarted> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: const Text('Get Started') , ),
+              child: Text(AppLocalizations.of(context)!.getStarted) ),
           ),
           const Gap(20),
           Column(
-              children:  const [
-                Text('By continuing , I sgree to the ,', style: TextStyle(fontSize: 18 ) ),
-                Text(' Terms  & condition' , style: TextStyle( fontSize: 18, fontStyle: FontStyle.normal , fontWeight: FontWeight.bold ) ),
+              children:  [
+                Text(AppLocalizations.of(context)!.by_continuing, style: TextStyle(fontSize: 18 ) ),
+                Text(AppLocalizations.of(context)!.terms_condition , style: TextStyle( fontSize: 18, fontStyle: FontStyle.normal , fontWeight: FontWeight.bold ) ),
               ]
           )
         ],

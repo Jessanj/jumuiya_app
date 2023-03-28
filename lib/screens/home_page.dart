@@ -4,7 +4,6 @@ import 'package:jumuiya_app/screens/notifications_page.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
 import '../widgets/left_drawer.dart';
 
 class LangItem {
@@ -22,6 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   
   @override
   void initState() {
