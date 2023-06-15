@@ -3,6 +3,7 @@ import 'package:jumuiya_app/screens/home_page.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:jumuiya_app/screens/schedule_page.dart';
 import 'package:jumuiya_app/screens/user_profile_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'explore_page.dart';
 import 'members_page.dart';
@@ -33,7 +34,10 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
+      debugShowCheckedModeBanner: false,
       locale: Locale('sw'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
       home:  Scaffold(
         body: Center(
           child: _widgetOptions[_selectedIndex],

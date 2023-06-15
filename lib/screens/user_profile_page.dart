@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../util/app_styles.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -20,7 +23,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
         ),
         body: 
         ListView(
-
           children: [
             Stack(
                   children: [
@@ -39,7 +41,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               Padding(padding: EdgeInsets.only(top: 60),
                                 child: Text('Jessan Michael' , style: TextStyle(fontSize: 24 , fontWeight: FontWeight.bold , ),)
                               ),
-                            Text('Level 1'),
+                            Text('jessan.josephat@gmail.com'),
                             const Gap(15),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,8 +128,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 color: Colors.black38,
                 borderRadius: BorderRadius.circular(30)
               ),
-              child: Column(
+              child: Row(
+                children: [
+                    Column(
+                      children: [
+                        const Gap(12),
+                        Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: Text(AppLocalizations.of(context)!.personal_information , style: Styles.headLineStyle2 ),
+                        )
+                      ],
+                    ),
+                  Column(
 
+                  )
+                ],
               ),
             )
 

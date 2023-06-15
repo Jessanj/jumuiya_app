@@ -1,86 +1,137 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jumuiya_app/screens/bottom_nav.dart';
+import 'package:jumuiya_app/screens/home_page.dart';
+import 'package:jumuiya_app/screens/registration_page.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LogPage extends StatefulWidget {
-  const LogPage({Key? key}) : super(key: key);
+import '../util/app_colors.dart';
+import '../util/app_styles.dart';
+import '../util/constants.dart';
+import '../widgets/custom_button.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LogPage> createState() => _LogPageState();
-
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LogPageState extends State<LogPage> {
-  late  Image loginImage;
+class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _form = GlobalKey();
+  late Image loginImage;
+  String _username = "";
+  String _password = "";
+
   @override
   void initState() {
     super.initState();
-    loginImage = Image.asset('assets/images/greenleaf.jpg');
+    loginImage = Image.asset('assets/images/jm_logo.png');
   }
 
   @override
   Widget build(BuildContext context) {
     final size = AppLayouts.getSize(context);
+
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: size.height * 0.28,
-            width: size.width,
-            child: loginImage,
-          ),
-          Container(
-            child: Padding(
+        body: Column(children: [
+      SizedBox(
+        height: size.height * 0.25,
+        width: size.width,
+        child: loginImage,
+      ),
+      Container(
+          child: Padding(
               padding: EdgeInsets.all(15),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'User Name',
-                        hintText: 'Enter Your Name',
-                      ),
+              child: Column(children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Form(
+                    key: _form,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          decoration:
+                              AppConstants.inputDecorationLogin.copyWith(
+                            labelText: "Username (Email/Phone)",
+                          ),
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 17.0,
+                          ),
+                          onSaved: (value) => _username = value?.trim() ?? "",
+                          validator: (value) {
+                            if (value == null || value == "")
+                              return "Please Enter Username.";
+
+                            return null;
+                          },
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        TextFormField(
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 17.0,
+                          ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null || value.trim() == "") {
+                              return "Password cannot be null.";
+                            }
+
+                            return null;
+                          },
+                          onSaved: (value) => _password = value?.trim() ?? "",
+                          decoration:
+                              AppConstants.inputDecorationLogin.copyWith(
+                            hintText: "Enter Password",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        CustomButton(
+                          onTap: _Login,
+                          title: "Sign In",
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                        hintText: 'Enter Password',
-                      ),
-                    ),
-                  ),
-                ],
-              ) ,
-          )
-          ),
-          Container(
-            width: size.width*0.5,
-            child:ElevatedButton(onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const BottomNav()),
-              );
-            },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
                 ),
-              ),
-              child: const Text('Login') , ),
-          ),
 
-          TextButton(onPressed: (){}, child: Text('Forget Password'))
+                Align(
+                  alignment: Alignment.center,
+                  child: TextButton(onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage())) ; },
+                    child: const Text('Forgot Password ?' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15 , right: 15) ,
+                  child:  Row(
+                    children: [
+                      const Text('Don\'t have an account ?' , style: TextStyle(color: Colors.black54 , fontSize: 18)),
+                      TextButton(onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegistrationPage())) ; },
+                        child: const Text('Register Here' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
+                      ),
+                    ],
+                  ),
+                )
 
-      ]
-      )
-    );
+              ])))
+    ]));
+  }
+
+  void _Login() {
+    if (!(_form.currentState?.validate() ?? true)){
+      return ;
+    }else{
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage())) ;
+    }
   }
 }

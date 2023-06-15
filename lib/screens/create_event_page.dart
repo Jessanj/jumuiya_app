@@ -19,6 +19,8 @@ class CreateEventPage extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEventPage> {
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
