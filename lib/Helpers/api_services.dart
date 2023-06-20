@@ -6,11 +6,10 @@ import 'package:jumuiya_app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  static final token = 'MY TOKEN HERE';
 
   Future<String?> getToken() async {
     try {
-      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getToken);
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.testPost);
       var response = await http.get(url);
       final body = json.decode(response.body);
       final header = response.headers.values.first.toString();
@@ -23,6 +22,7 @@ class ApiService {
       return body['csrf_token'];
     } catch (e) {
       log(e.toString());
+      return '';
     }
   }
 
@@ -34,50 +34,46 @@ class ApiService {
         headers: {},
       );
       if (response.statusCode == 200) {
-        List<UserModel> _model = userModelFromJson(response.body);
-        return _model;
+        List<UserModel> model = userModelFromJson(response.body);
+        return model;
       }
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 
-  Future<Object?> RegUser(Map<String, dynamic> userDetail) async {
+  Future<Object?> registerUser(Map<String, dynamic> userDetail) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final csrf_token = prefs.getString('csrf_token');
-      final savedCookie = prefs.getString('cookie');
-
       var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.regUsers);
-      var jsonBody = JsonEncoder().convert(userDetail);
+      var jsonBody = json.encode(userDetail);
 
       var response = await http.post(url,
-          // headers: {
-          //   'cookie': '$savedCookie',
-          //   'X-CSRFToken': '$csrf_token',
-          // },
+          headers: {"Content-Type": "application/json"},
           body: jsonBody);
 
-      print(response.body);
+      var body = json.decode(response.body);
+      print('ooww');
+      if(response.statusCode == 200){
+        return 'true';
+      }else{
+        return  'false';
+      }
 
-      return response.body;
     } catch (e) {
       log(e.toString());
+
+      return 'System Error';
     }
+
   }
 
-  Future<Object?> SendContribution(Map<String, dynamic> trxData) async {
+  Future<Object?> sendContribution(Map<String, dynamic> trxData) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final csrf_token = prefs.getString('csrf_token');
-      final savedCookie = prefs.getString('cookie');
       var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.testPost);
-      var jsonBody = JsonEncoder().convert(trxData);
-      var response = await http.post(url,
-          headers: {
-            'cookie': '$savedCookie',
-            'X-CSRFToken': '$csrf_token',
-          },
+      var jsonBody = json.encode(trxData);
+      var response = await http.post(url, headers: {"Content-Type": "application/json"},
           body: jsonBody);
 
       print(response.body);
@@ -86,27 +82,52 @@ class ApiService {
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 
-  Future<Object?> LoginRequest(Map<String, dynamic> formData) async {
+  static Future<Object> logInRequest(String username, String password) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final csrf_token = prefs.getString('csrf_token');
-      final savedCookie = prefs.getString('cookie');
-      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.testPost);
-      var jsonBody = JsonEncoder().convert(formData);
-      var response = await http.post(url,
-          headers: {
-            'cookie': '$savedCookie',
-            'X-CSRFToken': '$csrf_token',
-          },
-          body: jsonBody);
 
-      print(response.body);
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.loginUser);
 
-      return response;
+      var formData   =  json.encode({
+        'email' : username,
+        'password' : password
+      });
+
+      var response = await http.post(url,headers: {"Content-Type": "application/json"}, body:  formData);
+
+      if (response.statusCode == 200) {
+        final body =  json.decode(response.body);
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        // Save an token strings key.
+        await prefs.setString('jwt_token', body['jwt']);
+
+        return true;
+      } else {
+        final body = json.decode(response.body);
+        return body['detail'];
+      }
+
     } catch (e) {
       log(e.toString());
+      return false;
     }
+
+
   }
+
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt_token');
+    return token != null;
+  }
+
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('jwt_token');
+  }
+
+
 }
