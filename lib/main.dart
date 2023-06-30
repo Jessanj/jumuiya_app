@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jumuiya_app/screens/get_started.dart';
+import 'package:jumuiya_app/screens/login_page.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
 import 'package:jumuiya_app/screens/bottom_nav.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../Helpers/api_services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -82,8 +85,17 @@ class _SplashScreenState  extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 3)).then((value){
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const GetStarted()));
+    Future.delayed(Duration(seconds: 3)).then((value) async {
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var skipIntro = prefs.getBool('skip_intro');
+      print(skipIntro);
+      if(skipIntro == true){
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage()));
+      }else{
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const GetStarted()));
+      }
+
     });
   }
   @override

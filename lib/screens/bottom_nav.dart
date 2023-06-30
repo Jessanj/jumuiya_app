@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jumuiya_app/screens/home_page.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
+import 'package:jumuiya_app/screens/login_page.dart';
 import 'package:jumuiya_app/screens/schedule_page.dart';
 import 'package:jumuiya_app/screens/user_profile_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../Helpers/api_services.dart';
 
 import 'explore_page.dart';
 import 'members_page.dart';
@@ -16,6 +18,19 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
+  @override
+  initState(){
+    super.initState();
+    checkLogin();
+  }
+
+   void checkLogin()  {
+    var tkn =  ApiService.isLoggedIn();
+    if(tkn == false){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage())) ;
+    }
+  }
+
   int _selectedIndex = 2;
   static final List<Widget> _widgetOptions = <Widget>[
     const OverlayExample(),

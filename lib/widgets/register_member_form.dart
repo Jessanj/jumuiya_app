@@ -5,6 +5,9 @@ import 'package:gap/gap.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
 
 import '../Helpers/api_services.dart';
+import '../util/app_styles.dart';
+import '../util/constants.dart';
+import 'custom_button.dart';
 import 'members_list.dart';
 
 class RegisterMemberForm extends StatefulWidget {
@@ -15,6 +18,8 @@ class RegisterMemberForm extends StatefulWidget {
 }
 
 class _RegisterMemberFormState extends State<RegisterMemberForm> {
+
+  final GlobalKey<FormState>  addMemberForm = GlobalKey<FormState>();
   final first_name = TextEditingController();
   final last_name = TextEditingController();
   final middle_name = TextEditingController();
@@ -27,6 +32,7 @@ class _RegisterMemberFormState extends State<RegisterMemberForm> {
 
     _saveMember(){
       var memberDetail =  Map<String, dynamic>();
+        memberDetail['jumuiya_name'] =
         memberDetail['first_name'] = first_name.text;
         memberDetail['last_name'] = last_name.text;
         memberDetail['middle_name'] = middle_name.text;
@@ -55,105 +61,171 @@ class _RegisterMemberFormState extends State<RegisterMemberForm> {
   @override
   Widget build(BuildContext context) {
     final size  = AppLayouts.getSize(context);
+
+    showLoaderDialog(BuildContext context){
+      AlertDialog alert=AlertDialog(
+        content: Row(
+          children: [
+            const CircularProgressIndicator(),
+            Container(margin: const EdgeInsets.only(left: 10),child: const Text("Loading..." )),
+          ],),
+      );
+
+      showDialog(barrierDismissible: false,
+        context:context,
+        builder:(BuildContext context){
+          return alert;
+        },
+      );
+    }
+
     return ListView(
      padding:  const  EdgeInsets.only(left: 20 , right: 20),
       scrollDirection: Axis.vertical,
       children:[
-            const Gap(10),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'First Name',
-                hintText: 'Enter Your First Name',
+        const Gap(10),
+        Form(
+          key: addMemberForm ,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Gap(20),
+              Padding(
+                padding: const EdgeInsets.only( bottom: 20),
+                child: TextFormField(
+                  decoration: AppConstants.inputDecorationLogin.copyWith(
+                    labelText: 'National Identity Number' ,
+                    hintText: 'Enter NIN Number ',
+                  ),
+                  validator: (value) {
+                    if(value == null || value.trim() == ""){
+                      return "NIN cannot be null";
+                    }
+                    return null;
+                  },
+                  controller: NIN,
+                ),
               ),
-              controller: first_name,
-            ),
-        const Gap(10),
-        TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Middle Name',
-            hintText: 'Enter Your Middle Name',
-          ),
-          controller: middle_name,
+              Padding(
+                padding: const EdgeInsets.only( bottom: 20),
+                child: TextFormField(
+                  scrollPadding: EdgeInsets.only(bottom:100),
+                  decoration: AppConstants.inputDecorationForms.copyWith(
+                    labelText: 'First Name',
+                    hintText: 'Enter members first name',
+                  ),
+                  validator: (value) {
+                    if (value == null || value == "") {
+                      return "First name cannot be null.";
+                    }
+                    return null;
+                  },
+                  controller: first_name,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only( bottom: 20),
+                child: TextFormField(
+                  scrollPadding: EdgeInsets.only(bottom:100),
+                  decoration:  AppConstants.inputDecorationForms.copyWith(
+                    labelText: 'Middle Name',
+                    hintText: 'Enter Members Middle Name',
+                  ),
+                  controller: middle_name,
+                  validator: (value) {
+                    if (value == null || value == "") {
+                      return "Middle name cannot be null.";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only( bottom: 20),
+                child: TextFormField(
+                  scrollPadding: EdgeInsets.only(bottom:100),
+                  decoration: AppConstants.inputDecorationForms.copyWith(
+                    labelText: 'Last Name',
+                    hintText: 'Enter Members Last Name',
+                  ),
+                  controller: last_name,
+                  validator: (value) {
+                    if (value == null || value == "") {
+                      return "Last name cannot be null.";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only( bottom: 20),
+                child: TextFormField(
+                  scrollPadding: EdgeInsets.only(bottom:100),
+                  decoration: AppConstants.inputDecorationForms.copyWith(
+                    labelText: 'Address/Location',
+                    hintText: 'Enter members address location',
+                  ),
+                  controller: address,
+                  validator: (value) {
+                    if (value == null || value == "") {
+                      return "Address/Location cannot be null.";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only( bottom: 20),
+                child: TextFormField(
+                  scrollPadding: EdgeInsets.only(bottom:100),
+                  decoration: AppConstants.inputDecorationForms.copyWith(
+                    labelText: 'Email',
+                    hintText: 'Enter Members Email',
+                  ),
+                  controller: email,
+                  validator: (value) {
+                    if (value == null || value == "") {
+                      return "Email cannot be null.";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only( bottom: 10),
+                child: TextFormField(
+                  scrollPadding: EdgeInsets.only(bottom:250),
+                  decoration: AppConstants.inputDecorationForms.copyWith(
+                    labelText: 'Phone Number',
+                    hintText: 'Enter Members Phonenumber',
+                  ),
+                  controller: phone1,
+                  validator: (value) {
+                    if (value == null || value == "") {
+                      return "Phonenumber cannot be null.";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ]),
         ),
-        const Gap(10),
-        TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Last Name',
-            hintText: 'Enter Your Last Name',
-          ),
-          controller: last_name,
-        ),
-         const Gap(10),
-        TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Phone Number 1',
-            hintText: 'Enter Your Phone number Name',
-          ),
-          controller: phone1,
-        ),
-        const Gap(10),
-        TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Phone Number 2 (Optional)',
-            hintText: 'Enter Your Phone number Name',
-          ),
-          controller: phone2,
-        ),
-        const Gap(10),
-        TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Email',
-            hintText: 'Enter Your Email',
-          ),
-          controller: email,
-        ),
-        const Gap(10),
-        TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'ID NUMBER (NIN , voterID , License)',
-            hintText: 'Enter Your ID',
-          ),
-          controller: NIN,
-        ),
-        const  Gap(10),
-        TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Address',
-            hintText: 'Enter Your ID',
-          ),
-          controller: address,
-        ),
-        const  Gap(10),
+
+        const Gap(15),
 
         Container(
-          width: size.width*0.5,
-          child:ElevatedButton(onPressed: (){
-            var resp  = _saveMember();
-            if(false){
-              const TabBarView(children: [
-                MembersList()
-              ],);
-            }else{
-              var snackBar = const SnackBar(content: Text('Sorry something went wrong' , textAlign: TextAlign.center,));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            }
-          },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.lightBlue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-            child: const Text('SAVE MEMBER') , ),
+          alignment: Alignment.center,
+          child:  CustomButton(
+            onTap: (){
+              showLoaderDialog(context);
+
+            },
+            title: "Register Member",
+          ),
         ),
+
 
       ],
     );

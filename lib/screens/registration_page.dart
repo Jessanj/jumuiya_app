@@ -21,7 +21,8 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
   final GlobalKey<FormState> regForm = GlobalKey<FormState>();
 
   final group_name = TextEditingController();
-  GroupType ? _grouptype = GroupType.jumuiya;
+  GroupType ? grouptype = GroupType.jumuiya;
+  String group_type = GroupType.jumuiya.name ;
   final first_name = TextEditingController();
   final last_name = TextEditingController();
   final middle_name = TextEditingController();
@@ -47,8 +48,8 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
     }else{
 
       var memberDetail =  <String, dynamic>{};
-      memberDetail['group_name'] = group_name.text;
-      // memberDetail['group_type'] = _grouptype;
+      memberDetail['jumuiya_name'] = group_name.text;
+      memberDetail['group_type'] = group_type;
       memberDetail['first_name'] = first_name.text;
       memberDetail['last_name'] = last_name.text;
       memberDetail['middle_name'] = middle_name.text;
@@ -56,12 +57,15 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
       memberDetail['email'] = email.text;
       memberDetail['address'] = address.text;
 
-      var response = ( ApiService().registerUser(memberDetail));
+      var response ;
+      // = ( ApiService().registerUser(memberDetail));
 
       if(response == "success"){
         Navigator.pop(context);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
       }else{
+        Navigator.pop(context);
+
         return ;
       }
 
@@ -101,6 +105,7 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
         },
       );
     }
+
     final size = AppLayouts.getSize(context);
     return Scaffold(
         body: ListView(
@@ -150,10 +155,11 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
                                   const Text('Jumuiya'),
                                   Radio<GroupType>(
                                     value: GroupType.jumuiya,
-                                    groupValue: _grouptype,
+                                    groupValue: grouptype,
                                     onChanged: (GroupType? value) {
                                       setState(() {
-                                        _grouptype = value;
+                                        grouptype = value;
+                                        group_type = value!.name;
                                       });
                                     },
                                   ),
@@ -169,10 +175,11 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
                                   const Text('Private'),
                                   Radio<GroupType>(
                                     value: GroupType.private,
-                                    groupValue: _grouptype,
+                                    groupValue: grouptype,
                                     onChanged: (GroupType? value) {
                                       setState(() {
-                                        _grouptype = value;
+                                        grouptype = value;
+                                        group_type = value!.name;
                                       });
                                     },
                                   ),

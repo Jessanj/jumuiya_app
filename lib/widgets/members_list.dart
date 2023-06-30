@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../Helpers/api_services.dart';
@@ -14,7 +15,7 @@ class MembersList extends StatefulWidget {
 }
 
 class _MembersListState extends State<MembersList> {
-  late List<UserModel>? _userModel = [];
+   UserModel? _userModel;
 
   void initState() {
     super.initState();
@@ -22,19 +23,18 @@ class _MembersListState extends State<MembersList> {
   }
 
   void _getData() async {
-    _userModel = (await ApiService().getUsers())!;
+      _userModel = await ApiService.getUsers();
+
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
-    return _userModel == null || _userModel!.isEmpty
+    return _userModel == null
         ? const Center(
       child: CircularProgressIndicator(),
     )
         : ListView.builder(
-
-      itemCount: _userModel!.length,
       itemBuilder: (context, index) {
         return Card(
         child: SizedBox(
@@ -54,7 +54,7 @@ class _MembersListState extends State<MembersList> {
         )
         ),
         ),
-        Text(_userModel![index].name , style: Styles.usernameStyle,),
+        Text(_userModel!.first_name.toString(), style: Styles.usernameStyle,),
         SizedBox(
         height: 55,
         width: 55,

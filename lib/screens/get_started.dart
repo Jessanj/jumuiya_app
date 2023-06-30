@@ -7,6 +7,7 @@ import 'package:jumuiya_app/util/app_layouts.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -17,10 +18,30 @@ class GetStarted extends StatefulWidget {
 }
 
 class _GetStartedState extends State<GetStarted> {
+
+  @override
+  void initState() {
+    super.initState();
+    _skipIntro();
+    getStared = Image.asset('assets/images/jumuiya_app_logo.png');
+  }
+
   final introKey = GlobalKey<IntroductionScreenState>();
   late  Image getStared;
 
-  void _onIntroEnd(context) {
+  Future<void> _skipIntro() async {
+  final SharedPreferences prefs =  await SharedPreferences.getInstance();
+  var skip = prefs.getBool('skip_intro');
+    print(skip);
+    if(skip == true){
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+      );
+    }
+  }
+Future<void> _onIntroEnd(context)  async {
+    final SharedPreferences pref  = await SharedPreferences.getInstance();
+    pref.setBool('skip_intro', true);
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const LoginPage()),
     );
@@ -38,12 +59,6 @@ class _GetStartedState extends State<GetStarted> {
 
   Widget _buildImage(String assetName, [double width = 350]) {
     return Image.asset('assets/images/$assetName', width: width);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getStared = Image.asset('assets/images/jumuiya_app_logo.png');
   }
 
   @override

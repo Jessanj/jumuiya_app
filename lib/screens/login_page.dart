@@ -12,6 +12,7 @@ import '../util/app_colors.dart';
 import '../util/app_styles.dart';
 import '../util/constants.dart';
 import '../widgets/custom_button.dart';
+import 'bottom_nav.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -35,6 +36,24 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    showLoaderDialog(BuildContext context){
+      AlertDialog alert=AlertDialog(
+        content: Row(
+          children: [
+            const CircularProgressIndicator(),
+            Container(margin: const EdgeInsets.only(left: 10),child: const Text("Loading..." )),
+          ],),
+      );
+
+      showDialog(barrierDismissible: false,
+        context:context,
+        builder:(BuildContext context){
+          return alert;
+        },
+      );
+    }
+
     final size = AppLayouts.getSize(context);
 
     return Scaffold(
@@ -104,11 +123,12 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Enter Password",
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    const Gap(10),
                     CustomButton(
-                      onTap: _Login,
+                      onTap: (){
+                        showLoaderDialog(context);
+                        _Login();
+                      },
                       title: "Sign In",
                     ),
                   ],
@@ -140,14 +160,17 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _Login() async {
     if (!(_form.currentState?.validate() ?? true)){
+      Navigator.pop(context);
       return ;
     }else{
       _form.currentState?.save();
       Object loginStatus = await ApiService.logInRequest(_username , _password);
       if(loginStatus == true){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage())) ;
+        Navigator.pop(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav())) ;
       }else{
         setState(() {
+          Navigator.pop(context);
           loginResponse = loginStatus.toString();
         });
       }

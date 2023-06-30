@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
   }
   int _slidercurrent = 0;
   final CarouselController _slidercontroller = CarouselController();
@@ -47,10 +48,10 @@ class _HomePageState extends State<HomePage> {
     const LangItem('KISW', Icon(Icons.flag_circle_outlined),),
   ];
   List <String> imgList = [
-    'united-states.png',
-    'greenleaf.jpg',
-    'jmProfile.jpg',
-    'tanzania.png'
+    'together_image.jpg',
+    'networking_image.jpg',
+    'stay_connected.jpg',
+    'tree_money.jpg'
   ];
   
   @override
@@ -191,42 +192,40 @@ class _HomePageState extends State<HomePage> {
                 )
             ),
             const Gap(8),
-            Expanded(
-              child: SizedBox(
-                height: size.height*0.3,
-                child: Column(
-                  children: [
-                    CarouselSlider(
-                      items: imageSliders,
-                      carouselController: _slidercontroller,
-                      options: CarouselOptions(
-                          viewportFraction: 1,
-                          autoPlay: true,
-                          onPageChanged: (index , reason){
-                            setState(() {
-                              _slidercurrent = index;
-                            });
-                          }),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: imageSliders.asMap().entries.map((entry) {
-                        return GestureDetector(
-                          onTap: () => _slidercontroller.animateToPage(entry.key),
-                          child: Container(
-                            width: 12.0,
-                            height: 12.0,
-                            margin: const EdgeInsets.symmetric(vertical: 8 , horizontal: 8),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black).withOpacity(_slidercurrent == entry.key? 0.9 : 0.4)
-                            ),
+            SizedBox(
+              height: size.height*0.3,
+              child: Column(
+                children: [
+                  CarouselSlider(
+                    items: imageSliders,
+                    carouselController: _slidercontroller,
+                    options: CarouselOptions(
+                        viewportFraction: 1,
+                        autoPlay: true,
+                        onPageChanged: (index , reason){
+                          setState(() {
+                            _slidercurrent = index;
+                          });
+                        }),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: imageSliders.asMap().entries.map((entry) {
+                      return GestureDetector(
+                        onTap: () => _slidercontroller.animateToPage(entry.key),
+                        child: Container(
+                          width: 12.0,
+                          height: 12.0,
+                          margin: const EdgeInsets.symmetric(vertical: 8 , horizontal: 8),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black).withOpacity(_slidercurrent == entry.key? 0.9 : 0.4)
                           ),
-                        );
-                      }).toList(),
-                    )
-                  ],
-                ),
+                        ),
+                      );
+                    }).toList(),
+                  )
+                ],
               ),
             ),
             const Gap(4),

@@ -6,7 +6,6 @@ import 'package:jumuiya_app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-
   Future<String?> getToken() async {
     try {
       var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.testPost);
@@ -26,21 +25,30 @@ class ApiService {
     }
   }
 
-  Future<List<UserModel>?> getUsers() async {
+  static Future<UserModel?> getUsers() async {
     try {
-      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getUsers);
+      var u = Uri.parse("https://jsonplaceholder.typicode.com/users");
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('jwt_token');
       var response = await http.get(
         url,
-        headers: {},
+        headers: {
+          "Content-Type": "application/json",
+          "Cookie" : 'jwt=$token'
+        },
       );
       if (response.statusCode == 200) {
-        List<UserModel> model = userModelFromJson(response.body);
-        return model;
+          print(response.body.toString());
+          UserModel model = UserModel.fromJson(json.decode(response.body));
+          return model;
       }
     } catch (e) {
+      print('oi');
       log(e.toString());
     }
-    return null;
+
   }
 
   Future<Object?> registerUser(Map<String, dynamic> userDetail) async {
@@ -53,7 +61,9 @@ class ApiService {
           body: jsonBody);
 
       var body = json.decode(response.body);
-      print('ooww');
+      print(body.toString());
+
+
       if(response.statusCode == 200){
         return 'true';
       }else{
@@ -62,7 +72,6 @@ class ApiService {
 
     } catch (e) {
       log(e.toString());
-
       return 'System Error';
     }
 
@@ -112,10 +121,8 @@ class ApiService {
 
     } catch (e) {
       log(e.toString());
-      return false;
+      return 'System Error : Please try again';
     }
-
-
   }
 
   static Future<bool> isLoggedIn() async {

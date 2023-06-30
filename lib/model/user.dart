@@ -1,80 +1,79 @@
 import 'dart:convert';
-
-List<UserModel> userModelFromJson(String str) =>
-    List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
-
-String userModelToJson(List<UserModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+//
+// List<UserModel> userModelFromJson(String str) =>
+//     List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
+//
+// String userModelToJson(List<UserModel> data) =>
+//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserModel {
+
   UserModel({
     required this.id,
-    required this.name,
-    required this.username,
+    required this.first_name,
+    required this.middle_name,
+    required this.last_name,
     required this.email,
     required this.address,
-    required this.phone1,
+    required this.phone,
     required this.phone2,
     required this.website,
-    required this.company,
   });
 
   int id;
-  String name;
-  String username;
+  String first_name;
+  String middle_name;
+  String last_name;
   String email;
   Address address;
-  String phone1;
+  String phone;
   String website;
   String phone2;
-  Company company;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json["id"],
-    name: json["name"],
-    username: json["username"],
+    first_name: json["first_name"],
+    middle_name: json["middle_name"],
+    last_name: json["last_name"],
     email: json["email"],
     address: Address.fromJson(json["address"]),
-    phone1: json["phone"],
+    phone: json["phone"],
     phone2: json["phone"],
     website: json["website"],
-    company: Company.fromJson(json["company"]),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "name": name,
-    "username": username,
+    "first_name" : first_name,
+    "middle_name" : middle_name,
+    "last_name" : last_name,
     "email": email,
     "address": address.toJson(),
-    "phone1": phone1,
+    "phone1": phone,
     "phone2": phone2,
     "website": website,
-    "company": company.toJson(),
   };
 }
 
 class Address {
+
   Address({
     required this.street,
     required this.suite,
     required this.city,
     required this.zipcode,
-    required this.geo,
   });
 
   String street;
   String suite;
   String city;
   String zipcode;
-  Geo geo;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
     street: json["street"],
     suite: json["suite"],
     city: json["city"],
     zipcode: json["zipcode"],
-    geo: Geo.fromJson(json["geo"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -82,50 +81,6 @@ class Address {
     "suite": suite,
     "city": city,
     "zipcode": zipcode,
-    "geo": geo.toJson(),
   };
 }
 
-class Geo {
-  Geo({
-    required this.lat,
-    required this.lng,
-  });
-
-  String lat;
-  String lng;
-
-  factory Geo.fromJson(Map<String, dynamic> json) => Geo(
-    lat: json["lat"],
-    lng: json["lng"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "lat": lat,
-    "lng": lng,
-  };
-}
-
-class Company {
-  Company({
-    required this.name,
-    required this.catchPhrase,
-    required this.bs,
-  });
-
-  String name;
-  String catchPhrase;
-  String bs;
-
-  factory Company.fromJson(Map<String, dynamic> json) => Company(
-    name: json["name"],
-    catchPhrase: json["catchPhrase"],
-    bs: json["bs"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "catchPhrase": catchPhrase,
-    "bs": bs,
-  };
-}
