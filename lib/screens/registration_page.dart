@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:jumuiya_app/screens/login_page.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
+import 'package:masked_text_field/masked_text_field.dart';
 import '../Helpers/api_services.dart';
 import '../util/app_colors.dart';
 import '../util/app_layouts.dart';
@@ -17,18 +18,21 @@ class RegistrationPage extends StatefulWidget {
 }
 enum GroupType { jumuiya, private }
 class _RegistrationPageState extends State<RegistrationPage>  with TickerProviderStateMixin {
-
+  String _DialogAlertText = 'Loading...';
   final GlobalKey<FormState> regForm = GlobalKey<FormState>();
 
-  final group_name = TextEditingController();
-  GroupType ? grouptype = GroupType.jumuiya;
-  String group_type = GroupType.jumuiya.name ;
+  // final group_name = TextEditingController();
+  // GroupType ? grouptype = GroupType.jumuiya;
+  // String group_type = GroupType.jumuiya.name ;
+  final nida = TextEditingController();
   final first_name = TextEditingController();
   final last_name = TextEditingController();
   final middle_name = TextEditingController();
   final phone = TextEditingController();
   final email = TextEditingController();
   final address = TextEditingController();
+  final password = TextEditingController();
+  final confirm_password = TextEditingController();
 
   late  Image loginImage;
 
@@ -40,7 +44,7 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
     super.initState();
   }
 
-  _saveUser(){
+  _saveUser() async {
 
     if (!(regForm.currentState?.validate() ?? true)){
       Navigator.pop(context);
@@ -48,40 +52,41 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
     }else{
 
       var memberDetail =  <String, dynamic>{};
-      memberDetail['jumuiya_name'] = group_name.text;
-      memberDetail['group_type'] = group_type;
+      memberDetail['nida'] = nida.text;
       memberDetail['first_name'] = first_name.text;
       memberDetail['last_name'] = last_name.text;
       memberDetail['middle_name'] = middle_name.text;
       memberDetail['phone'] = phone.text;
       memberDetail['email'] = email.text;
       memberDetail['address'] = address.text;
-
-      var response ;
-      // = ( ApiService().registerUser(memberDetail));
-
-      if(response == "success"){
+      memberDetail['password'] = password.text;
+      print(memberDetail);
+      var response = await ApiService.registerUser(memberDetail);
+      print(response);
+      if(response == 'true'){
+        setState(() {
+          _DialogAlertText = 'Registered Successful';
+        });
         Navigator.pop(context);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
       }else{
         Navigator.pop(context);
-
         return ;
       }
 
     }
 
-
   }
   @override
   void dispose() {
-    group_name.dispose();
+    first_name.dispose();
     first_name.dispose();
     last_name.dispose();
     middle_name.dispose();
     phone.dispose();
     email.dispose();
     address.dispose();
+    nida.dispose();
     super.dispose();
   }
 
@@ -94,7 +99,7 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
         content: Row(
           children: [
             const CircularProgressIndicator(),
-            Container(margin: const EdgeInsets.only(left: 10),child: const Text("Loading..." )),
+            Container(margin: const EdgeInsets.only(left: 10),child: Text(_DialogAlertText)),
           ],),
       );
 
@@ -121,76 +126,76 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
               key: regForm , child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 15 , bottom: 10 , right: 15),
-                    child: TextFormField(
-                      decoration: AppConstants.inputDecorationLogin.copyWith(
-                        labelText: 'Group/Community Name',
-                        hintText: 'Enter Your Community Name',
-                      ),
-                      validator: (value) {
-                        if(value == null || value.trim() == ""){
-                          return "Community/Group cannot be null";
-                        }
-                        return null;
-                      },
-                      controller: group_name,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child:  Padding(padding: const EdgeInsets.only(left: 15 , right: 15),
-                      child:  Text('Group/Communty Type' , style: Styles.headLineStyle3 ),
-                    ),
-                  ),
-
-                   Padding(padding: const EdgeInsets.only(left: 15 , bottom: 10 , right: 15 ),
-                      child:
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Text('Jumuiya'),
-                                  Radio<GroupType>(
-                                    value: GroupType.jumuiya,
-                                    groupValue: grouptype,
-                                    onChanged: (GroupType? value) {
-                                      setState(() {
-                                        grouptype = value;
-                                        group_type = value!.name;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              )
-
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const Text('Private'),
-                                  Radio<GroupType>(
-                                    value: GroupType.private,
-                                    groupValue: grouptype,
-                                    onChanged: (GroupType? value) {
-                                      setState(() {
-                                        grouptype = value;
-                                        group_type = value!.name;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              )
-
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(left: 15 , bottom: 10 , right: 15),
+                  //   child: TextFormField(
+                  //     decoration: AppConstants.inputDecorationLogin.copyWith(
+                  //       labelText: 'Group/Community Name',
+                  //       hintText: 'Enter Your Community Name',
+                  //     ),
+                  //     validator: (value) {
+                  //       if(value == null || value.trim() == ""){
+                  //         return "Community/Group cannot be null";
+                  //       }
+                  //       return null;
+                  //     },
+                  //     controller: group_name,
+                  //   ),
+                  // ),
+                  // Align(
+                  //   alignment: Alignment.centerLeft,
+                  //   child:  Padding(padding: const EdgeInsets.only(left: 15 , right: 15),
+                  //     child:  Text('Group/Communty Type' , style: Styles.headLineStyle3 ),
+                  //   ),
+                  // ),
+                  //
+                  //  Padding(padding: const EdgeInsets.only(left: 15 , bottom: 10 , right: 15 ),
+                  //     child:
+                  //     Row(
+                  //       children: [
+                  //         Column(
+                  //           children: [
+                  //             Row(
+                  //               children: [
+                  //                 const Text('Jumuiya'),
+                  //                 Radio<GroupType>(
+                  //                   value: GroupType.jumuiya,
+                  //                   groupValue: grouptype,
+                  //                   onChanged: (GroupType? value) {
+                  //                     setState(() {
+                  //                       grouptype = value;
+                  //                       group_type = value!.name;
+                  //                     });
+                  //                   },
+                  //                 ),
+                  //               ],
+                  //             )
+                  //
+                  //           ],
+                  //         ),
+                  //         Column(
+                  //           children: [
+                  //             Row(
+                  //               children: [
+                  //                 const Text('Private'),
+                  //                 Radio<GroupType>(
+                  //                   value: GroupType.private,
+                  //                   groupValue: grouptype,
+                  //                   onChanged: (GroupType? value) {
+                  //                     setState(() {
+                  //                       grouptype = value;
+                  //                       group_type = value!.name;
+                  //                     });
+                  //                   },
+                  //                 ),
+                  //               ],
+                  //             )
+                  //
+                  //           ],
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
 
                   Padding(
                     padding: EdgeInsets.only(left: 15 , bottom: 10 , right: 15),
@@ -244,6 +249,44 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
                     ),
                   ),
 
+                  // Padding(
+                  //   padding: EdgeInsets.only(left: 15 , bottom: 10 , right: 15),
+                  //   child: TextFormField(
+                  //     scrollPadding: const EdgeInsets.only(bottom:100),
+                  //     decoration: AppConstants.inputDecorationForms.copyWith(
+                  //       labelText: 'National ID ',
+                  //       hintText: 'Enter Your NIDA number',
+                  //     ),
+                  //     controller: nida,
+                  //     validator: (value) {
+                  //       if (value == null || value == "") {
+                  //         return "Last Username cannot be null.";
+                  //       }else if(true){
+                  //
+                  //       }
+                  //       return null;
+                  //     },
+                  //   ),
+                  // ),
+
+                  Padding(
+                    padding: EdgeInsets.only(left: 15 , bottom: 10 , right: 15),
+                    child: MaskedTextField(
+                      textFieldController: nida,
+                      inputDecoration:  AppConstants.inputDecorationForms.copyWith(
+                      labelText: 'National ID ',
+                      hintText: 'Enter Your NIDA number', counterText: "",
+                      ),
+                      autofocus: true,
+                      mask: 'xxxxxxxx-xxxxx-xxxxx-xx',
+                      maxLength: 23,
+                      keyboardType: TextInputType.number,
+                      onChange: (String value) {
+                        print(value);
+                      },
+                    ),
+                  ),
+
                   Padding(
                     padding: const EdgeInsets.only(left: 15 , bottom: 10 , right: 15 , top: 10),
                     child: TextFormField(
@@ -291,6 +334,48 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
                       validator: (value) {
                         if (value == null || value == "") {
                           return "Phonenumber cannot be null.";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15 , bottom: 10 , right: 15),
+                    child: TextFormField(
+                      scrollPadding: EdgeInsets.only(bottom:100),
+                      obscureText: true,
+                      decoration: AppConstants.inputDecorationForms.copyWith(
+                        labelText: 'Password',
+                        hintText: 'Enter Your Password',
+                      ),
+                      controller: password,
+                      validator: (value) {
+                        if (value == null || value == "") {
+                          return "Last password cannot be null.";
+                        }
+                        if(value.length < 8){
+                          return "Password must be at least 8 characters long";
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15 , bottom: 10 , right: 15),
+                    child: TextFormField(
+                      scrollPadding: EdgeInsets.only(bottom:100),
+                      obscureText: true,
+                      decoration: AppConstants.inputDecorationForms.copyWith(
+                        labelText: 'Confirm Password',
+                        hintText: 'Confirm Password',
+                      ),
+                      controller: confirm_password,
+                      validator: (value) {
+                        if (value == null || value == "") {
+                          return "Cannot be null.";
+                        }
+                        if(value != password.text){
+                          return 'Password Not Match';
                         }
                         return null;
                       },

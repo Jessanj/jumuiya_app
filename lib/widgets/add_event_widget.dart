@@ -1,11 +1,9 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-
-import '../app_colors.dart';
-import '../constants.dart';
+import 'package:jumuiya_app/Helpers/api_services.dart';
 import 'package:jumuiya_app/util/extensions.dart';
-import '../model/event.dart';
+import '../models/event.dart';
 import '../util/app_colors.dart';
 import '../util/constants.dart';
 import 'custom_button.dart';
@@ -28,19 +26,16 @@ class _AddEventWidgetState extends State<AddEventWidget> {
   late DateTime _endDate;
 
   DateTime? _startTime;
-
   DateTime? _endTime;
-
   String _title = "";
-
   String _description = "";
+  String _location = "";
 
   Color _color = Colors.blue;
 
   late FocusNode _titleNode;
-
   late FocusNode _descriptionNode;
-
+  late FocusNode _locationNode;
   late FocusNode _dateNode;
 
   final GlobalKey<FormState> _form = GlobalKey();
@@ -49,6 +44,7 @@ class _AddEventWidgetState extends State<AddEventWidget> {
   late TextEditingController _startTimeController;
   late TextEditingController _endTimeController;
   late TextEditingController _endDateController;
+  bool isRecurring  = false;
 
   @override
   void initState() {
@@ -57,7 +53,7 @@ class _AddEventWidgetState extends State<AddEventWidget> {
     _titleNode = FocusNode();
     _descriptionNode = FocusNode();
     _dateNode = FocusNode();
-
+    _locationNode = FocusNode();
     _startDateController = TextEditingController();
     _endDateController = TextEditingController();
     _startTimeController = TextEditingController();
@@ -69,18 +65,21 @@ class _AddEventWidgetState extends State<AddEventWidget> {
     _titleNode.dispose();
     _descriptionNode.dispose();
     _dateNode.dispose();
-
     _startDateController.dispose();
     _endDateController.dispose();
     _startTimeController.dispose();
     _endTimeController.dispose();
+    _locationNode.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return  ListView(
+      scrollDirection: Axis.vertical,
+      children:[
+      Form(
       key: _form,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -89,21 +88,21 @@ class _AddEventWidgetState extends State<AddEventWidget> {
             decoration: AppConstants.inputDecoration.copyWith(
               labelText: "Event Title",
             ),
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.black,
               fontSize: 17.0,
             ),
             onSaved: (value) => _title = value?.trim() ?? "",
             validator: (value) {
-              if (value == null || value == "")
+              if (value == null || value == "") {
                 return "Please enter event title.";
-
+              }
               return null;
             },
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -115,12 +114,13 @@ class _AddEventWidgetState extends State<AddEventWidget> {
                     labelText: "Start Date",
                   ),
                   validator: (value) {
-                    if (value == null || value == "")
+                    if (value == null || value == "") {
                       return "Please select date.";
+                    }
 
                     return null;
                   },
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: AppColors.black,
                     fontSize: 17.0,
                   ),
@@ -128,7 +128,7 @@ class _AddEventWidgetState extends State<AddEventWidget> {
                   type: DateTimeSelectionType.date,
                 ),
               ),
-              SizedBox(width: 20.0),
+              const SizedBox(width: 20.0),
               Expanded(
                 child: DateTimeSelectorFormField(
                   controller: _endDateController,
@@ -136,12 +136,12 @@ class _AddEventWidgetState extends State<AddEventWidget> {
                     labelText: "End Date",
                   ),
                   validator: (value) {
-                    if (value == null || value == "")
+                    if (value == null || value == "") {
                       return "Please select date.";
-
+                    }
                     return null;
                   },
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: AppColors.black,
                     fontSize: 17.0,
                   ),
@@ -151,7 +151,7 @@ class _AddEventWidgetState extends State<AddEventWidget> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -163,20 +163,21 @@ class _AddEventWidgetState extends State<AddEventWidget> {
                     labelText: "Start Time",
                   ),
                   validator: (value) {
-                    if (value == null || value == "")
+                    if (value == null || value == "") {
                       return "Please select start time.";
+                    }
 
                     return null;
                   },
                   onSave: (date) => _startTime = date,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: AppColors.black,
                     fontSize: 17.0,
                   ),
                   type: DateTimeSelectionType.time,
                 ),
               ),
-              SizedBox(width: 20.0),
+              const SizedBox(width: 20.0),
               Expanded(
                 child: DateTimeSelectorFormField(
                   controller: _endTimeController,
@@ -184,13 +185,14 @@ class _AddEventWidgetState extends State<AddEventWidget> {
                     labelText: "End Time",
                   ),
                   validator: (value) {
-                    if (value == null || value == "")
+                    if (value == null || value == "") {
                       return "Please select end time.";
+                    }
 
                     return null;
                   },
                   onSave: (date) => _endTime = date,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: AppColors.black,
                     fontSize: 17.0,
                   ),
@@ -199,12 +201,35 @@ class _AddEventWidgetState extends State<AddEventWidget> {
               ),
             ],
           ),
-          SizedBox(
-            height: 15,
+          const SizedBox(
+            height: 15.0,
+          ),
+          TextFormField(
+            focusNode: _locationNode,
+            style: const TextStyle(
+              color: AppColors.black,
+              fontSize: 17.0,
+            ),
+            selectionControls: MaterialTextSelectionControls(),
+            minLines: 1,
+            validator: (value) {
+              if (value == null || value.trim() == "") {
+                return "Please enter event location.";
+              }
+
+              return null;
+            },
+            onSaved: (value) => _location  = value?.trim() ?? "",
+            decoration: AppConstants.inputDecoration.copyWith(
+              hintText: "Event Location",
+            ),
+          ),
+          const SizedBox(
+            height: 15.0,
           ),
           TextFormField(
             focusNode: _descriptionNode,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.black,
               fontSize: 17.0,
             ),
@@ -212,11 +237,12 @@ class _AddEventWidgetState extends State<AddEventWidget> {
             textInputAction: TextInputAction.newline,
             selectionControls: MaterialTextSelectionControls(),
             minLines: 1,
-            maxLines: 10,
-            maxLength: 1000,
+            maxLines: 4,
+            maxLength: 360,
             validator: (value) {
-              if (value == null || value.trim() == "")
+              if (value == null || value.trim() == "") {
                 return "Please enter event description.";
+              }
 
               return null;
             },
@@ -225,28 +251,34 @@ class _AddEventWidgetState extends State<AddEventWidget> {
               hintText: "Event Description",
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15.0,
           ),
+
           Row(
             children: [
-              Text(
-                "Event Color: ",
+              const Text(
+                "Is Recurring: ",
                 style: TextStyle(
                   color: AppColors.black,
                   fontSize: 17,
                 ),
               ),
-              GestureDetector(
-                onTap: _displayColorPicker,
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: _color,
-                ),
+              Switch(
+                // This bool value toggles the switch.
+                value: isRecurring,
+                activeColor: AppColors.navyBlue,
+                onChanged: (bool value) {
+                  // This is called when the user toggles the switch.
+                  setState(() {
+                    isRecurring = value;
+                    print(isRecurring);
+                  });
+                },
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           CustomButton(
@@ -255,7 +287,8 @@ class _AddEventWidgetState extends State<AddEventWidget> {
           ),
         ],
       ),
-    );
+    ),
+      ]);
   }
 
   void _createEvent() {
@@ -272,12 +305,32 @@ class _AddEventWidgetState extends State<AddEventWidget> {
       endDate: _endDate,
       title: _title,
       event: Event(
+        id: 0,
         title: _title,
+        location : _location,
+        isRecurring : isRecurring,
+        startDate: _startDate.dateToStringWithFormat(),
+        endDate : _endDate.dateToStringWithFormat(),
+        description: _description,
+        userId: 1,
       ),
     );
 
-    widget.onEventAdd?.call(event);
-    _resetForm();
+    final eventDetails = Event(
+      id: 0,
+      title: _title,
+      location : _location,
+      isRecurring : isRecurring,
+      startDate: _startDate.dateToStringWithFormat(),
+      endDate : _endDate.dateToStringWithFormat(),
+      description: _description,
+      userId: 1,
+    ).toJson();
+
+    ApiService.addEvent(eventDetails);
+
+    //widget.onEventAdd?.call(event);
+    // _resetForm();
   }
 
   void _resetForm() {
@@ -297,14 +350,14 @@ class _AddEventWidgetState extends State<AddEventWidget> {
         clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
-          side: BorderSide(
+          side: const BorderSide(
             color: AppColors.bluishGrey,
             width: 2,
           ),
         ),
-        contentPadding: EdgeInsets.all(20.0),
+        contentPadding: const EdgeInsets.all(20.0),
         children: [
-          Text(
+          const Text(
             "Event Color",
             style: TextStyle(
               color: AppColors.black,
@@ -326,14 +379,15 @@ class _AddEventWidgetState extends State<AddEventWidget> {
           ),
           Center(
             child: Padding(
-              padding: EdgeInsets.only(top: 50.0, bottom: 30.0),
+              padding: const EdgeInsets.only(top: 50.0, bottom: 30.0),
               child: CustomButton(
                 title: "Select",
                 onTap: () {
-                  if (mounted)
+                  if (mounted) {
                     setState(() {
                       _color = color;
                     });
+                  }
                   context.pop();
                 },
               ),

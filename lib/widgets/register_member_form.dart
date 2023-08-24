@@ -42,7 +42,7 @@ class _RegisterMemberFormState extends State<RegisterMemberForm> {
         memberDetail['NIN'] = NIN.text;
         memberDetail['address'] = address.text;
 
-      var response = ApiService().registerUser(memberDetail);
+      var response = ApiService.registerUser(memberDetail);
       return response;
   }
   @override

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:gap/gap.dart';
-import 'package:jumuiya_app/model/event.dart';
+import 'package:jumuiya_app/models/event.dart';
 import 'package:jumuiya_app/util/extensions.dart';
 
 import '../util/app_colors.dart';

@@ -1,10 +1,3 @@
-import 'dart:convert';
-//
-// List<UserModel> userModelFromJson(String str) =>
-//     List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
-//
-// String userModelToJson(List<UserModel> data) =>
-//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserModel {
 
@@ -16,8 +9,6 @@ class UserModel {
     required this.email,
     required this.address,
     required this.phone,
-    required this.phone2,
-    required this.website,
   });
 
   int id;
@@ -25,21 +16,17 @@ class UserModel {
   String middle_name;
   String last_name;
   String email;
-  Address address;
+  String address;
   String phone;
-  String website;
-  String phone2;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json["id"],
-    first_name: json["first_name"],
-    middle_name: json["middle_name"],
-    last_name: json["last_name"],
-    email: json["email"],
-    address: Address.fromJson(json["address"]),
-    phone: json["phone"],
-    phone2: json["phone"],
-    website: json["website"],
+    first_name: json["first_name"].toString(),
+    middle_name: json["middle_name"].toString(),
+    last_name: json["last_name"].toString(),
+    email: json["email"].toString(),
+    address:  json["address"].toString(),
+    phone: json["phone"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -48,10 +35,8 @@ class UserModel {
     "middle_name" : middle_name,
     "last_name" : last_name,
     "email": email,
-    "address": address.toJson(),
+    "address": address,
     "phone1": phone,
-    "phone2": phone2,
-    "website": website,
   };
 }
 

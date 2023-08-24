@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jumuiya_app/Helpers/api_URL.dart';
+import 'package:jumuiya_app/screens/login_page.dart';
+
+import '../Helpers/api_services.dart';
 
 class LeftDrawer extends StatefulWidget {
   const LeftDrawer({Key? key}) : super(key: key);
@@ -37,6 +41,18 @@ class _LeftDrawerState extends State<LeftDrawer> {
             // ...
             // Then close the drawer
             Navigator.pop(context);
+          },
+        ),
+        ListTile(
+          title: const Text('logout'),
+          onTap: () {
+            ApiService.logout();
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => const LoginPage()));
+            // Update the state of the app
+            // ...
+            // Then close the drawer
+
           },
         ),
       ],

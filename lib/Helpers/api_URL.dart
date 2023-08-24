@@ -6,4 +6,11 @@ class ApiConstants {
   static String saveUsers = '/save_member';
   static String regUsers = '/user/register';
   static String loginUser = '/user/login';
+  static String addEvent = '/event/add_event';
+  static String getEvent = '/event/get_events';
+  static String saveGroup = '/group/create_group';
+  static String getGroups = '/group/get_groups';
+  static String getUserGroup = '/group/get_user_group/';
+  static String joinGroup = '/add_member_to_group';
+  static String searchGroup = '/group/get_group_by_number/';
 }

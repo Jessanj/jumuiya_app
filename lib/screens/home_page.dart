@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:jumuiya_app/Helpers/api_services.dart';
 import 'package:jumuiya_app/screens/notifications_page.dart';
+import 'package:jumuiya_app/screens/reg_groups/register_jumuiya_page.dart';
 import 'package:jumuiya_app/screens/shares_page.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
@@ -30,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+    checkJumuiya(1);
   }
   int _slidercurrent = 0;
   final CarouselController _slidercontroller = CarouselController();
@@ -53,6 +55,19 @@ class _HomePageState extends State<HomePage> {
     'stay_connected.jpg',
     'tree_money.jpg'
   ];
+
+  void checkJumuiya(int id) async {
+    var group = await  ApiService.getUserGroup(id);
+
+
+    if(group == 'failed'){
+
+    }else{
+      if(group.length <= 0){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterJumuiyaPage())) ;
+      }
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
