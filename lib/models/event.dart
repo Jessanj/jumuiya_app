@@ -30,7 +30,7 @@ class Event {
     description:  json["description"].toString(),
    // userId: json["user_id"].toInt(),
     userId: 1,
-    isRecurring: json["is_recurring"].toBool(),
+    isRecurring: json["repeat"],
   );
 
   Map<String, dynamic> toJson() => {

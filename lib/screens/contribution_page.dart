@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
 
+import '../util/app_colors.dart';
+
 class ContributionPage extends StatefulWidget {
   const ContributionPage({Key? key}) : super(key: key);
 
@@ -26,7 +28,9 @@ class _ContributionPageState extends State<ContributionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: AppColors.navyBlue,
+      ),
         body: ListView(
       children: [
         const Gap(50),

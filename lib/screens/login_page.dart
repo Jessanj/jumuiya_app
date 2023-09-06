@@ -6,6 +6,7 @@ import 'package:jumuiya_app/screens/home_page.dart';
 import 'package:jumuiya_app/screens/nida_verification_page.dart';
 import 'package:jumuiya_app/screens/reg_groups/register_jumuiya_page.dart';
 import 'package:jumuiya_app/screens/registration_page.dart';
+import 'package:jumuiya_app/screens/reset_password_page.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   late Image loginImage;
   String _username = "";
   String _password = "";
+  String _phone_number = '';
   String loginResponse = "";
   late DateTime currentBackPressTime;
   @override
@@ -39,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    final size = AppLayouts.getSize(context);
     showLoaderDialog(BuildContext context){
       AlertDialog alert=AlertDialog(
         content: Row(
@@ -57,123 +59,187 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    final size = AppLayouts.getSize(context);
+    void forgotPasswordBottomSheet(context){
+      showModalBottomSheet(context: context,  isScrollControlled: true , builder: (BuildContext bc){
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Center(
+                child: Text('Enter Phone Number Linked To Account' , style: Styles.headLineStyle5,),
+              ),
+              Padding(padding: const EdgeInsets.only(left: 15 , bottom: 10 , right: 15) ,
+                child: TextFormField(
+                  decoration:
+                  AppConstants.inputDecorationLogin.copyWith(
+                    labelText: "Phone Number",
+                  ),
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 17.0,
+                  ),
 
-    return WillPopScope(onWillPop:
-        () async {
+                  onSaved: (value) => _phone_number = value?.trim() ?? "",
+                  validator: (value) {
+                    if (value == null || value == "")
+                      return "Please Enter Phone Number.";
 
-    final timegap = DateTime.now().difference(currentBackPressTime);
-    final cantExit = timegap >= Duration(seconds: 2);
-    currentBackPressTime = DateTime.now();
-    if(cantExit){
-    //show snackbar
-    final snack =  SnackBar(content: Text('Press Back button again to Exit'),duration: Duration(seconds: 2),);
-    print('back press');
-    ScaffoldMessenger.of(context).showSnackBar(snack);
-    return false;
-    }else{
-    return true;
-    }
-    },
-        child:  Scaffold(
-        body: Column(children: [
-          SizedBox(
-            height: size.height * 0.23,
-            width: size.width,
-            child: loginImage,
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                ),
+              ),
+              CustomButton(
+                title: 'Get OTP Token',
+                onTap: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ResetPasswordPage())) ;
+                },
+              )
+            ],
           ),
-          Padding(
-              padding: EdgeInsets.all(15),
-              child: Column(children: <Widget>[
-                Padding(
+        );
+      });
+    }
+
+    return WillPopScope(
+        onWillPop: () async {
+          if (await backPressedDialog()) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        child:  Scaffold(
+            resizeToAvoidBottomInset: true,
+            body: Column(children: [
+              SizedBox(
+                height: size.height * 0.23,
+                width: size.width,
+                child: loginImage,
+              ),
+              Padding(
                   padding: EdgeInsets.all(15),
-                  child: Form(
-                    key: _form,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text( loginResponse , style: TextStyle(
-                          color: AppColors.red,
-                          fontSize: 15,
-                        ),),
-                        const Gap(8),
-                        TextFormField(
-                          decoration:
-                          AppConstants.inputDecorationLogin.copyWith(
-                            labelText: "Username (Email/Phone)",
-                          ),
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 17.0,
-                          ),
+                  child: Column(children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Form(
+                        key: _form,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text( loginResponse , style: TextStyle(
+                              color: AppColors.red,
+                              fontSize: 15,
+                            ),),
+                            const Gap(8),
+                            TextFormField(
+                              decoration:
+                              AppConstants.inputDecorationLogin.copyWith(
+                                labelText: "Username (Email/Phone)",
+                              ),
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: 17.0,
+                              ),
 
-                          onSaved: (value) => _username = value?.trim() ?? "",
-                          validator: (value) {
-                            if (value == null || value == "")
-                              return "Please Enter Username.";
+                              onSaved: (value) => _username = value?.trim() ?? "",
+                              validator: (value) {
+                                if (value == null || value == "")
+                                  return "Please Enter Username.";
 
-                            return null;
-                          },
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.next,
+                                return null;
+                              },
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            TextFormField(
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: 17.0,
+                              ),
+                              obscureText: true,
+                              validator: (value) {
+                                if (value == null || value.trim() == "") {
+                                  return "Password cannot be null.";
+                                }
+                                return null;
+                              },
+                              onSaved: (value){
+                                _password = value!;
+                              },
+                              decoration:
+                              AppConstants.inputDecorationLogin.copyWith(
+                                hintText: "Enter Password",
+                              ),
+                            ),
+                            const Gap(10),
+                            CustomButton(
+                              onTap: (){
+                                showLoaderDialog(context);
+                                _Login();
+                              },
+                              title: "Sign In",
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextFormField(
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 17.0,
-                          ),
-                          obscureText: true,
-                          validator: (value) {
-                            if (value == null || value.trim() == "") {
-                              return "Password cannot be null.";
-                            }
-                            return null;
-                          },
-                          onSaved: (value){
-                            _password = value!;
-                          },
-                          decoration:
-                          AppConstants.inputDecorationLogin.copyWith(
-                            hintText: "Enter Password",
-                          ),
-                        ),
-                        const Gap(10),
-                        CustomButton(
-                          onTap: (){
-                            showLoaderDialog(context);
-                            _Login();
-                          },
-                          title: "Sign In",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Align(
-                  alignment: Alignment.center,
-                  child: TextButton(onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterJumuiyaPage())); },
-                    child: const Text('Forgot Password ?' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15 , right: 15),
-                  child:  Row(
-                    children: [
-                      const Text('Don\'t have an account ?' , style: TextStyle(color: Colors.black54 , fontSize: 18)),
-                      TextButton(onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegistrationPage())) ; },
-                        child: const Text('Register Here' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
                       ),
-                    ],
-                  ),
-                )
+                    ),
 
-              ]))
-        ])));
+                    Align(
+                      alignment: Alignment.center,
+                      child: TextButton(onPressed: () {
+                       // forgotPasswordBottomSheet(context);
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav())) ;
 
+                        },
+                        child: const Text('Forgot Password ?' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15 , right: 15),
+                      child:  Row(
+                        children: [
+                          const Text('Don\'t have an account ?' , style: TextStyle(color: Colors.black54 , fontSize: 18)),
+                          TextButton(onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegistrationPage())) ; },
+                            child: const Text('Register Here' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
+                          ),
+                        ],
+                      ),
+                    )
+
+                  ]))
+            ])));
+
+  }
+  Future<bool> backPressedDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Exit App'),
+          content: Text('Do you want to exit the app?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            ),
+            TextButton(
+              child: Text('Exit'),
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+            ),
+          ],
+        );
+      },
+    ).then((value) => value as bool);
   }
 
   Future<void> _Login() async {
@@ -195,4 +261,5 @@ class _LoginPageState extends State<LoginPage> {
 
     }
   }
+
 }

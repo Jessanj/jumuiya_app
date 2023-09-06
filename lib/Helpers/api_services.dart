@@ -59,7 +59,7 @@ class ApiService {
 
   }
 
-  static Future<Object?> registerUser(Map<String, dynamic> userDetail) async {
+  static Future registerUser(Map<String, dynamic> userDetail) async {
     try {
       var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.regUsers);
       var jsonBody = json.encode(userDetail);
@@ -69,8 +69,6 @@ class ApiService {
           body: jsonBody);
 
       var body = json.decode(response.body);
-
-
 
       if(response.statusCode == 200){
         return body;
@@ -110,6 +108,40 @@ class ApiService {
       var formData   =  json.encode({
         'phone' : username,
         'password' : password
+      });
+
+      var response = await http.post(url,headers: {"Content-Type": "application/json"}, body:  formData);
+
+      if (response.statusCode == 200) {
+        final body =  json.decode(response.body);
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        // Save an token strings key.
+        await prefs.setString('jwt_token', body['jwt']);
+        await prefs.setInt('userId', body['user']['id']);
+
+        return true;
+
+      } else {
+        final body = json.decode(response.body);
+        return body['detail'];
+      }
+
+    } catch (e) {
+      log(e.toString());
+      if(e.toString() == 'Connection time out'){
+        return 'Connection time out';
+      }
+      return 'System Error : Please try again';
+    }
+  }
+
+  static Future<Object> resetPassword(String newPassword) async{
+    try {
+
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.loginUser);
+
+      var formData   =  json.encode({
+        'new_password' : newPassword
       });
 
       var response = await http.post(url,headers: {"Content-Type": "application/json"}, body:  formData);
@@ -189,15 +221,16 @@ class ApiService {
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body);
         print(jsonResponse);
+
         return jsonResponse.map((data) => Event.fromJson(data)).toList();
+
       } else {
         throw Exception('Unexpected error occured!');
       }
 
     } catch (e) {
-      print('oi');
-      log(e.toString());
-      throw Exception('Failed to load users');
+
+      throw Exception('Failed to load events');
     }
 
   }
@@ -272,82 +305,9 @@ class ApiService {
         },
       );
       var jsonResponse = json.decode(response.body);
-      print('get body');
       if (response.statusCode == 200) {
-
-        print(response.body);
-
-        // var v  = [
-        //   {
-        //     "id": 4,
-        //     "name": "Coding Club",
-        //     "group_type": "Study",
-        //     "group_location": "Seattle",
-        //     "members": ["Alice", "Bob", "Charlie"],
-        //     "description": "This is a group for people who enjoy coding.",
-        //     "group_number": "1234567891",
-        //     "created_at": "2023-08-17T10:45:00Z",
-        //     "created_by": 4,
-        //     "updated_at": "2023-08-17T11:00:00Z"
-        //   },
-        //   {
-        //     "id": 5,
-        //     "name": "Book Club",
-        //     "group_type": "Social",
-        //     "group_location": "Chicago",
-        //     "members": ["David", "Eve", "Frank"],
-        //     "description": "This is a group for people who enjoy reading books.",
-        //     "group_number": "9876543211",
-        //     "created_at": "2023-08-17T11:15:00Z",
-        //     "created_by": 5,
-        //     "updated_at": "2023-08-17T11:30:00Z"
-        //   },
-        //   {
-        //     "id": 6,
-        //     "name": "Game Night",
-        //     "group_type": "Social",
-        //     "group_location": "Austin",
-        //     "members": ["George", "Henry", "Ian"],
-        //     "description": "This is a group for people who enjoy playing games.",
-        //     "group_number": "0987654322",
-        //     "created_at": "2023-08-17T11:45:00Z",
-        //     "created_by": 6,
-        //     "updated_at": "2023-08-17T12:00:00Z"
-        //   },
-        //   {
-        //     "id": 7,
-        //     "name": "Hiking Club",
-        //     "group_type": "Outdoors",
-        //     "group_location": "Denver",
-        //     "members": ["Jack", "Jill", "John"],
-        //     "description": "This is a group for people who enjoy hiking.",
-        //     "group_number": "1234567892",
-        //     "created_at": "2023-08-17T12:15:00Z",
-        //     "created_by": 7,
-        //     "updated_at": "2023-08-17T12:30:00Z"
-        //   },
-        //   {
-        //     "id": 8,
-        //     "name": "Volunteer Group",
-        //     "group_type": "Community",
-        //     "group_location": "Miami",
-        //     "members": ["Kevin", "Larry", "Mary"],
-        //     "description": "This is a group for people who enjoy volunteering.",
-        //     "group_number": "9876543212",
-        //     "created_at": "2023-08-17T12:45:00Z",
-        //     "created_by": 8,
-        //     "updated_at": "2023-08-17T13:00:00Z"
-        //   }
-        // ];
-
-        print(jsonResponse);
-        print('hi');
-        // List<Group> returnBody = jsonResponse.map((data) => Group.fromJson(data)).cast<Group>();
         var returnBody = jsonResponse.map((data) => Group.fromJson(data)).toList();
-        print(returnBody[1].group_name);
-        print('print after body');
         return  returnBody;
-
       } else {
         return  'failed';
 

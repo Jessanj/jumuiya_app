@@ -42,7 +42,7 @@ class _RegisterJumuiyaFormState extends State<RegisterJumuiyaForm> {
 
       if(response.toString() == 'true'){
         Navigator.pop(context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  BottomNav()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BottomNav()));
       }else{
         Navigator.pop(context);
         return ;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../util/app_colors.dart';
 import '../util/app_styles.dart';
 import '../widgets/members_list.dart';
 import '../widgets/register_member_form.dart';
@@ -23,8 +24,11 @@ class _MembersPageState extends State<MembersPage> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: AppColors.navyBlue,
             title: const Text('Members'),
             bottom : const TabBar(
+              indicatorColor: Colors.white70,
+              indicatorWeight: 3,
               tabs: <Widget>[
                 Tab(
                   icon: Icon(Icons.people_sharp),

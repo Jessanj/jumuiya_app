@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+import '../util/app_colors.dart';
 import '../util/constants.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_step.dart';
@@ -33,6 +34,7 @@ class _NidaVerificationPageState extends State<NidaVerificationPage> with Ticker
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.navyBlue,
         title: Text('NIDA Verification'),
       ),
       body: ListView(

@@ -63,7 +63,7 @@ class _RegistrationPageState extends State<RegistrationPage>  with TickerProvide
       print(memberDetail);
       var response = await ApiService.registerUser(memberDetail);
       print(response);
-      if(response == 'true'){
+      if(response['status'] == 'OK'){
         setState(() {
           _DialogAlertText = 'Registered Successful';
         });

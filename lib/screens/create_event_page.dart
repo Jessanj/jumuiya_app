@@ -31,10 +31,8 @@ class _CreateEventState extends State<CreateEventPage> {
     final size = AppLayouts.getSize(context);
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: AppColors.navyBlue,
           elevation: 0,
-          backgroundColor: Theme
-              .of(context)
-              .scaffoldBackgroundColor,
           centerTitle: false,
           leading: IconButton(
             onPressed: context.pop,

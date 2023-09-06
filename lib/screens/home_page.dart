@@ -7,6 +7,8 @@ import 'package:jumuiya_app/screens/shares_page.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../util/app_colors.dart';
 import '../widgets/left_drawer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -32,7 +34,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    checkJumuiya(1);
+
+    checkJumuiya();
   }
   int _slidercurrent = 0;
   final CarouselController _slidercontroller = CarouselController();
@@ -56,14 +59,15 @@ class _HomePageState extends State<HomePage> {
     'tree_money.jpg'
   ];
 
-  void checkJumuiya(int id) async {
-    var group = await  ApiService.getUserGroup(id);
-
-
+  void checkJumuiya() async {
+    final prefs = await SharedPreferences.getInstance();
+    var id = prefs.getInt('userId');
+    print(id);
+    var group = await  ApiService.getUserGroup(id!);
     if(group == 'failed'){
 
     }else{
-      if(group.length <= 0){
+      if(group.length <= 0 || true ){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterJumuiyaPage())) ;
       }
     }
@@ -118,6 +122,7 @@ class _HomePageState extends State<HomePage> {
 
     return  Scaffold(
         appBar: AppBar(
+          backgroundColor: AppColors.navyBlue,
           actions: <Widget>[
             DropdownButton(
               value: defaultLang ,

@@ -9,6 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../util/app_colors.dart';
+
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
 
@@ -42,7 +44,7 @@ class _GetStartedState extends State<GetStarted> {
 Future<void> _onIntroEnd(context)  async {
     final SharedPreferences pref  = await SharedPreferences.getInstance();
     pref.setBool('skip_intro', true);
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const LoginPage()),
     );
   }
@@ -94,7 +96,7 @@ Future<void> _onIntroEnd(context)  async {
         height: 60,
         child: ElevatedButton(
           style:  ElevatedButton.styleFrom(
-              backgroundColor : const Color.fromRGBO(57,21,97,1),) ,
+              backgroundColor : AppColors.primary_bg_hover ) ,
           child: const Text(
             'Let\'s go right away!',
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -104,30 +106,30 @@ Future<void> _onIntroEnd(context)  async {
       ),
       pages: [
       PageViewModel(
-      title: AppLocalizations.of(context)!.welcome,
+      title: AppLocalizations.of(context)!.welcome+ ' !',
       body:
-      "Instead of having to buy an entire share, invest any amount you want.",
+      "Jumuiya App inayokuunganisha na jamaa, rafiki na jamii yako katika nyanja za kijamii na kiuchumi.",
       image: _buildImage('stay_connected.jpg'),
       decoration: pageDecoration,
     ),
     PageViewModel(
-    title: "Learn as you go",
+    title: "Sajili Kikundi Chenu",
     body:
-    "Download the Stockpile app and master the market with our mini-lesson.",
+    "Sajili kikundi chenu au jiunge na jumuiya yenu ili upate  taarifa za vikao(mahari) , kumbukumbu za mahuzurio  , matangazo and taarifa muhumi kupitia simu yako.",
     image: _buildImage('networking_image.jpg'),
     decoration: pageDecoration,
     ),
         PageViewModel(
-          title: "Learn as you go",
+          title: "Kukua Pamoja",
           body:
-          "Download the Stockpile app and master the market with our mini-lesson.",
+          "Mawasiliano ya moja kwa moja na wanakikundi na wanajumuiya yamewezeshwa na jumuiya App.",
           image: _buildImage('together_image.jpg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Learn as you go",
+          title: "Mfuko wa Kifedha na Mkombozi Bank",
           body:
-          "Download the Stockpile app and master the market with our mini-lesson.",
+          "Fanya makusanyo na michango ya kifedha kiurahisi kupitia Jumuiya App. Hii ni pamoja na sadaka , misaada , michango ya lengo na hakiba za kikundi.",
           image: _buildImage('tree_money.jpg'),
           decoration: pageDecoration,
         ),
@@ -165,51 +167,3 @@ Future<void> _onIntroEnd(context)  async {
 
   }
 }
-// MaterialApp(
-// debugShowCheckedModeBanner: false,
-// home:  Scaffold(
-// backgroundColor: Colors.white,
-// body: Column(
-// children: [
-// SizedBox(
-// height: size.height - (0.4 * size.height),
-// width: size.width,
-// child: getStared,
-// ),
-// Container(
-// padding: EdgeInsets.only(bottom: 20),
-// alignment: Alignment.center,
-// child: Text(AppLocalizations.of(context)!.welcome , style: Styles.headLineStyle1,),
-// ),
-// Container(
-// alignment: Alignment.center,
-// padding: const EdgeInsets.only(bottom: 20),
-// child: Text(AppLocalizations.of(context)!.community_quote , style: Styles.headLineStyle2, textAlign: TextAlign.center),
-// ),
-// SizedBox(
-// width: size.width *0.8 ,
-// child: ElevatedButton(onPressed: (){
-// Navigator.push(
-// context,
-// MaterialPageRoute(builder: (context) => const LogPage()),
-// );
-// },
-// style: ElevatedButton.styleFrom(
-// backgroundColor: Colors.lightBlue,
-// shape: RoundedRectangleBorder(
-// borderRadius: BorderRadius.circular(30),
-// ),
-// ),
-// child: Text(AppLocalizations.of(context)!.getStarted) ),
-// ),
-// const Gap(20),
-// Column(
-// children:  [
-// Text(AppLocalizations.of(context)!.by_continuing, style: TextStyle(fontSize: 18 ) ),
-// Text(AppLocalizations.of(context)!.terms_condition , style: TextStyle( fontSize: 18, fontStyle: FontStyle.normal , fontWeight: FontWeight.bold ) ),
-// ]
-// )
-// ],
-// )
-// ),
-// );

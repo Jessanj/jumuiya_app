@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jumuiya_app/screens/get_started.dart';
 import 'package:jumuiya_app/screens/login_page.dart';
+import 'package:jumuiya_app/util/app_colors.dart';
 import 'package:jumuiya_app/util/app_styles.dart';
 import 'package:jumuiya_app/screens/bottom_nav.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: primary,
+        primaryColor: AppColors.navyBlue,
         backgroundColor: Colors.white,
       ),
 
@@ -89,7 +90,7 @@ class _SplashScreenState  extends State<SplashScreen> {
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       var skipIntro = prefs.getBool('skip_intro');
-      print(skipIntro);
+
       if(skipIntro == true){
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginPage()));
       }else{
@@ -115,7 +116,7 @@ class _SplashScreenState  extends State<SplashScreen> {
                 height: 50 ,
               ),
             SpinKitSquareCircle(
-              color: Colors.purple ,
+              color: AppColors.navyBlue ,
               size: 50.0,
             ),
             ],

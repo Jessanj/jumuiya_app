@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../util/app_colors.dart';
+
 class NotificationPage extends StatelessWidget {
   const NotificationPage({Key? key}) : super(key: key);
 
@@ -9,6 +11,7 @@ class NotificationPage extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: AppColors.navyBlue,
             title: const Text('Next page'),
           ),
           body: const Center(

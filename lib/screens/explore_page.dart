@@ -1,215 +1,97 @@
 import 'package:flutter/material.dart';
-class OverlayExample extends StatefulWidget {
-  const OverlayExample({super.key});
+
+import '../util/app_colors.dart';
+import '../widgets/left_drawer.dart';
+import 'chats/chats_page.dart';
+class ExplorePage extends StatefulWidget {
+  const ExplorePage({super.key});
 
   @override
-  State<OverlayExample> createState() => _OverlayExampleState();
+  State<ExplorePage> createState() => _ExplorePageState();
 }
 
-class _OverlayExampleState extends State<OverlayExample> {
-  OverlayEntry? overlayEntry;
-  int currentPageIndex = 0;
+class _ExplorePageState extends State<ExplorePage> {
 
-  void createHighlightOverlay({
-    required AlignmentDirectional alignment,
-    required Color borderColor,
-  }) {
-    // Remove the existing OverlayEntry.
-    removeHighlightOverlay();
-
-    assert(overlayEntry == null);
-
-    overlayEntry = OverlayEntry(
-      // Create a new OverlayEntry.
-      builder: (BuildContext context) {
-        // Align is used to position the highlight overlay
-        // relative to the NavigationBar destination.
-        return SafeArea(
-          child: Align(
-            alignment: alignment,
-            heightFactor: 1.0,
-            child: DefaultTextStyle(
-              style: const TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.0,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text('Tap here for'),
-                  Builder(builder: (BuildContext context) {
-                    switch (currentPageIndex) {
-                      case 0:
-                        return Column(
-                          children: const <Widget>[
-                            Text(
-                              'Explore page',
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
-                            ),
-                            Icon(Icons.arrow_downward, color: Colors.red),
-                          ],
-                        );
-                      case 1:
-                        return Column(
-                          children: const <Widget>[
-                            Text(
-                              'Commute page',
-                              style: TextStyle(
-                                color: Colors.green,
-                              ),
-                            ),
-                            Icon(Icons.arrow_downward, color: Colors.green),
-                          ],
-                        );
-                      case 2:
-                        return Column(
-                          children: const <Widget>[
-                            Text(
-                              'Saved page',
-                              style: TextStyle(
-                                color: Colors.orange,
-                              ),
-                            ),
-                            Icon(Icons.arrow_downward, color: Colors.orange),
-                          ],
-                        );
-                      default:
-                        return const Text('No page selected.');
-                    }
-                  }),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: 200.0,
-                    child: Center(
-                      child: Container(
-                        margin: EdgeInsets.only(bottom:100),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: borderColor,
-                            width: 4.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-
-    // Add the OverlayEntry to the Overlay.
-    Overlay.of(context, debugRequiredFor: widget)?.insert(overlayEntry!);
-  }
-
-  // Remove the OverlayEntry.
-  void removeHighlightOverlay() {
-    overlayEntry?.remove();
-    overlayEntry = null;
-  }
+  List<NavigationDestination> destinations = [
+  NavigationDestination(
+  icon: Icon(Icons.home),
+  label: 'Home',
+  ),
+  NavigationDestination(
+  icon: Icon(Icons.search),
+  label: 'Search',
+  ),
+  NavigationDestination(
+  icon: Icon(Icons.person),
+  label: 'Profile',
+  )];
 
   @override
   void dispose() {
-    // Make sure to remove OverlayEntry when the widget is disposed.
-    removeHighlightOverlay();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    int index = 0;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Overlay Sample'),
+        backgroundColor: AppColors.navyBlue,
+        title: const Text('Explore Community'),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentPageIndex,
-        destinations: const <NavigationDestination>[
-          NavigationDestination(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.commute),
-            label: 'Commute',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.bookmark),
-            icon: Icon(Icons.bookmark_border),
-            label: 'Saved',
-          ),
-        ],
+      drawer:  const Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: LeftDrawer(),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Use Overlay to highlight a NavigationBar destination',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 20.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // This creates a highlight Overlay for
-              // the Explore item.
-              ElevatedButton(
+      bottomNavigationBar:
+      NavigationBar(
+        destinations : [
+          Column(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.explore),
                 onPressed: () {
-                  setState(() {
-                    currentPageIndex = 0;
-                  });
-                  createHighlightOverlay(
-                    alignment: AlignmentDirectional.bottomStart,
-                    borderColor: Colors.red,
-                  );
+                  print('ksks');
                 },
-                child: const Text('Explore'),
               ),
-              const SizedBox(width: 20.0),
-              // This creates a highlight Overlay for
-              // the Commute item.
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    currentPageIndex = 1;
-                  });
-                  createHighlightOverlay(
-                    alignment: AlignmentDirectional.bottomCenter,
-                    borderColor: Colors.green,
-                  );
-                },
-                child: const Text('Commute'),
-              ),
-              const SizedBox(width: 20.0),
-              // This creates a highlight Overlay for
-              // the Saved item.
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    currentPageIndex = 2;
-                  });
-                  createHighlightOverlay(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    borderColor: Colors.orange,
-                  );
-                },
-                child: const Text('Saved'),
-              ),
+              const Text('Explore' , style: TextStyle(fontSize: 12),),
             ],
           ),
-          const SizedBox(height: 10.0),
-          ElevatedButton(
-            onPressed: () {
-              removeHighlightOverlay();
-            },
-            child: const Text('Remove Overlay'),
+
+          Column(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.message),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ChatsPage()),
+                  );
+                },
+              ),
+              const Text('Chats' , style: TextStyle(fontSize: 12),),
+            ],
+          ),
+
+          Column(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.perm_contact_calendar),
+                onPressed: () {
+                  print('ksks');
+                },
+              ),
+              const Text('Attendace' , style: TextStyle(fontSize: 12),),
+            ],
           ),
         ],
+          onDestinationSelected: (destination) {
+            // Do something when any destination is selected.
+          }
       ),
+      body: Container(),
     );
   }
 }

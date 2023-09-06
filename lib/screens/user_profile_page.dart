@@ -3,7 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:jumuiya_app/util/app_layouts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../util/app_colors.dart';
 import '../util/app_styles.dart';
+import '../widgets/left_drawer.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -19,8 +21,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
     final size = AppLayouts.getSize(context);
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: AppColors.navyBlue,
           title: const Text('My Profile'),
         ),
+      drawer:  const Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: LeftDrawer(),
+      ),
         body: 
         ListView(
           children: [

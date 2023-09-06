@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../Helpers/api_services.dart';
 import '../models/user.dart';
 import '../screens/member_detail.dart';
+import '../util/app_colors.dart';
 import '../util/app_styles.dart';
 
 class MembersList extends StatefulWidget {
@@ -28,10 +29,41 @@ class _MembersListState extends State<MembersList> {
         future: ApiService.getUsers(),
         builder: (context, snapshot){
           if (snapshot.hasData) {
-            print('it has data');
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
+               return Padding(padding: EdgeInsets.only(top: 3 , bottom: 3 , left: 15 , right: 15) ,child: ListTile(
+                  // leading: Image.network('https://example.com/image.png'),
+                  leading:Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+
+                        image: const DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            image: AssetImage('assets/images/jmProfile.jpg')
+                        )
+                    ),
+                  ) ,
+                  title: Text(snapshot.data![index].first_name +' '+ snapshot.data![index].last_name,  textAlign: TextAlign.left , style: Styles.usernameStyle,),
+
+                  trailing: IconButton(
+                    icon: const Icon(Icons.arrow_forward),
+                    color: Styles.secondaryColor,
+                    iconSize: 30,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MemberDetail()),
+                      );
+                    },
+                  ),
+                   tileColor: AppColors.white,
+                   shape: RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(10.0),
+                   ),
+                ));
                 return Card(
                     child: SizedBox(
                       height: 65,
@@ -44,13 +76,14 @@ class _MembersListState extends State<MembersList> {
                             width: 60,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
+
                                 image: const DecorationImage(
                                     fit: BoxFit.fitHeight,
                                     image: AssetImage('assets/images/jmProfile.jpg')
                                 )
                             ),
                           ),
-                          Text(snapshot.data![index].first_name , style: Styles.usernameStyle,),
+                          Text(snapshot.data![index].first_name +' '+ snapshot.data![index].last_name , style: Styles.usernameStyle,),
                           SizedBox(
                             height: 55,
                             width: 55,

@@ -4,6 +4,7 @@ import 'package:jumuiya_app/Helpers/api_URL.dart';
 import 'package:jumuiya_app/screens/login_page.dart';
 
 import '../Helpers/api_services.dart';
+import '../util/app_colors.dart';
 
 class LeftDrawer extends StatefulWidget {
   const LeftDrawer({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
       children: [
         const DrawerHeader(
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: AppColors.navyBlue,
           ),
           child: Text('Drawer Header'),
         ),
