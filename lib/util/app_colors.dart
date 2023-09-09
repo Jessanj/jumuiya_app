@@ -47,4 +47,9 @@ class AppColors {
   static const danger = Color(0xFFDC3545);
   static const light =Color(0xFFF8F9FA);
   static const dark = Color(0xFF343A40);
+  static const attendanceBlue =  Color(0xFF039BE5);
+  static const attendanceDBlue = Color(0xFF01579B);
+  static const attendanceBlack =  Color(0xFF212121);
+  static const attendanceDBlack  =Color(0xFF0D0C22);
+
 }

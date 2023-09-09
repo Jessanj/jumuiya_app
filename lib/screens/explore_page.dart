@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../util/app_colors.dart';
 import '../widgets/left_drawer.dart';
+import 'attandance/attendance_page.dart';
 import 'chats/chats_page.dart';
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -59,7 +60,6 @@ class _ExplorePageState extends State<ExplorePage> {
               const Text('Explore' , style: TextStyle(fontSize: 12),),
             ],
           ),
-
           Column(
             children: [
               IconButton(
@@ -80,7 +80,10 @@ class _ExplorePageState extends State<ExplorePage> {
               IconButton(
                 icon: const Icon(Icons.perm_contact_calendar),
                 onPressed: () {
-                  print('ksks');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AttendancePage()),
+                  );
                 },
               ),
               const Text('Attendace' , style: TextStyle(fontSize: 12),),
