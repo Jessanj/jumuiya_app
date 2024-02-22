@@ -9,6 +9,9 @@ class UserModel {
     required this.email,
     required this.address,
     required this.phone,
+    this.nida,
+    this.date_joined,
+    this.profile_image
   });
 
   int id;
@@ -18,6 +21,9 @@ class UserModel {
   String email;
   String address;
   String phone;
+  String? nida;
+  String? date_joined;
+  String? profile_image;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     id: json["id"],
@@ -27,6 +33,10 @@ class UserModel {
     email: json["email"].toString(),
     address:  json["address"].toString(),
     phone: json["phone"].toString(),
+    nida: json["nida"].toString(),
+    date_joined : json["date_joined"].toString(),
+    profile_image: json['profile_image'].toString()
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -37,6 +47,7 @@ class UserModel {
     "email": email,
     "address": address,
     "phone1": phone,
+    "profile_image" : profile_image,
   };
 }
 
@@ -67,5 +78,7 @@ class Address {
     "city": city,
     "zipcode": zipcode,
   };
+
+  String get id => id;
 }
 

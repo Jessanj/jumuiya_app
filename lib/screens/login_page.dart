@@ -103,117 +103,124 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
 
-    return WillPopScope(
-        onWillPop: () async {
-          if (await backPressedDialog()) {
-            return true;
+    return PopScope(
+        canPop: true,
+        onPopInvoked: (didPop) async {
+          if (didPop) {
+            backPressedDialog();
           } else {
-            return false;
+
           }
         },
         child:  Scaffold(
             resizeToAvoidBottomInset: true,
-            body: Column(children: [
-              SizedBox(
-                height: size.height * 0.23,
-                width: size.width,
-                child: loginImage,
-              ),
-              Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Column(children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Form(
-                        key: _form,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text( loginResponse , style: TextStyle(
-                              color: AppColors.red,
-                              fontSize: 15,
-                            ),),
-                            const Gap(8),
-                            TextFormField(
-                              decoration:
-                              AppConstants.inputDecorationLogin.copyWith(
-                                labelText: "Username (Email/Phone)",
-                              ),
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: 17.0,
-                              ),
-
-                              onSaved: (value) => _username = value?.trim() ?? "",
-                              validator: (value) {
-                                if (value == null || value == "")
-                                  return "Please Enter Username.";
-
-                                return null;
-                              },
-                              keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.next,
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            TextFormField(
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: 17.0,
-                              ),
-                              obscureText: true,
-                              validator: (value) {
-                                if (value == null || value.trim() == "") {
-                                  return "Password cannot be null.";
-                                }
-                                return null;
-                              },
-                              onSaved: (value){
-                                _password = value!;
-                              },
-                              decoration:
-                              AppConstants.inputDecorationLogin.copyWith(
-                                hintText: "Enter Password",
-                              ),
-                            ),
-                            const Gap(10),
-                            CustomButton(
-                              onTap: (){
-                                showLoaderDialog(context);
-                                _Login();
-                              },
-                              title: "Sign In",
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    Align(
-                      alignment: Alignment.center,
-                      child: TextButton(onPressed: () {
-                       // forgotPasswordBottomSheet(context);
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav())) ;
-
-                        },
-                        child: const Text('Forgot Password ?' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
-                      ),
+              body: SafeArea(
+                bottom: true,
+              child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.15,
+                      width: size.width,
+                      child: loginImage,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15 , right: 15),
-                      child:  Row(
-                        children: [
-                          const Text('Don\'t have an account ?' , style: TextStyle(color: Colors.black54 , fontSize: 18)),
-                          TextButton(onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegistrationPage())) ; },
-                            child: const Text('Register Here' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
+                        padding: EdgeInsets.all(10),
+                        child: Column(children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Form(
+                              key: _form,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text( loginResponse , style: TextStyle(
+                                    color: AppColors.red,
+                                    fontSize: 15,
+                                  ),),
+                                  const Gap(8),
+                                  TextFormField(
+                                    decoration:
+                                    AppConstants.inputDecorationLogin.copyWith(
+                                      labelText: "Username (Email/Phone)",
+                                    ),
+                                    style: TextStyle(
+                                      color: AppColors.black,
+                                      fontSize: 17.0,
+                                    ),
+
+                                    onSaved: (value) => _username = value?.trim() ?? "",
+                                    validator: (value) {
+                                      if (value == null || value == "")
+                                        return "Please Enter Username.";
+
+                                      return null;
+                                    },
+                                    keyboardType: TextInputType.text,
+                                    textInputAction: TextInputAction.next,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextFormField(
+                                    style: TextStyle(
+                                      color: AppColors.black,
+                                      fontSize: 17.0,
+                                    ),
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value == null || value.trim() == "") {
+                                        return "Password cannot be null.";
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value){
+                                      _password = value!;
+                                    },
+                                    decoration:
+                                    AppConstants.inputDecorationLogin.copyWith(
+                                      hintText: "Enter Password",
+                                    ),
+                                  ),
+                                  const Gap(10),
+                                  CustomButton(
+                                    onTap: (){
+                                      showLoaderDialog(context);
+                                      _Login();
+                                    },
+                                    title: "Sign In",
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                    )
 
-                  ]))
-            ])));
+                          Align(
+                            alignment: Alignment.center,
+                            child: TextButton(onPressed: () {
+                              // forgotPasswordBottomSheet(context);
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav())) ;
+
+                            },
+                              child: const Text('Forgot Password ?' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15 , right: 15),
+                            child:  Row(
+                              children: [
+                                const Text('Don\'t have an account ?' , style: TextStyle(color: Colors.black54 , fontSize: 18)),
+                                TextButton(onPressed: () { Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegistrationPage())) ; },
+                                  child: const Text('Register Here' , style: TextStyle(color: AppColors.navyBlue , fontSize: 18)),
+                                ),
+                              ],
+                            ),
+                          )
+
+                        ]))
+                  ]),
+            )
+            ),
+    );
 
   }
   Future<bool> backPressedDialog() {
@@ -249,6 +256,8 @@ class _LoginPageState extends State<LoginPage> {
     }else{
       _form.currentState?.save();
       Object loginStatus = await ApiService.logInRequest(_username , _password);
+      print(loginStatus);
+      print('login status');
       if(loginStatus == true){
         Navigator.pop(context);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomNav())) ;

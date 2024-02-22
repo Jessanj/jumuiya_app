@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:jumuiya_app/screens/attandance/attendance_details.dart';
 
 import '../../Helpers/api_services.dart';
 import '../../util/app_colors.dart';
@@ -11,7 +12,6 @@ class AttendancePage extends StatefulWidget {
 
   @override
   State<AttendancePage> createState() => _AttendancePageState();
-
 
 }
 
@@ -44,102 +44,110 @@ class _AttendancePageState extends State<AttendancePage> {
       body:
       Padding(padding: EdgeInsets.all(2) , child:
       FutureBuilder(
-          future: ApiService.getEvents() ,
+          future: ApiService.getMonthEvent(),
           builder: (context, snapshot){
             if (snapshot.hasData) {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return  Container(
-                    margin: EdgeInsets.only(top: 8 , right: 10 , left: 10),
-                    width: MediaQuery.of(context).size.width,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: AppColors.lightNavyBlue,
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: const LinearGradient(
-                        colors: [AppColors.attendanceBlue, AppColors.attendanceDBlue],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+                itemBuilder: (context, index)  {
+                  print('0i');
+                  print(snapshot.data![index]);
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AttendanceDetails(snapshot.data![index]['event_id'].toString())));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 8 , right: 10 , left: 10),
+                      width: MediaQuery.of(context).size.width,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: AppColors.lightNavyBlue,
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(
+                          colors: [AppColors.attendanceBlue, AppColors.attendanceDBlue],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                      padding: const EdgeInsets.only(left: 15 , right: 12 , top: 4 , bottom: 7),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  Text((snapshot.data![index]["location"].toString().length >= 18 ) ?snapshot.data![index]["location"].toString().substring(0, 18) :snapshot.data![index]["location"].toString() , style: TextStyle(color: Colors.white),),
+                                  Icon(Icons.location_on , color: Colors.white,),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text( get_date_from_string(DateTime.parse(snapshot.data![index]['startDate'].toString()) , 'hh : mm a'), style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: Colors.white)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text( get_date_from_string(DateTime.parse(snapshot.data![index]['startDate'].toString()) , 'd MMM yyyy'), style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.event , color: Colors.green, size: 16,),
+                                  Gap(3),
+                                  Text(snapshot.data![index]['title'].toString() , style: TextStyle(color: Colors.white), softWrap: true,
+                                    maxLines: 2,)
+
+                                ],
+                              ),
+                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Gap(10),
+                                  Column(
+                                    children: [
+                                      Text('Present' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
+                                      Gap(5),
+                                      Text(snapshot.data![index]['present'].toString(), style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
+                                    ],
+                                  ),
+                                  Gap(10),
+                                  Column(
+                                    children: [
+                                      Text('Absent' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
+                                      Gap(5),
+                                      Text( (snapshot.data![index]['absent'] +snapshot.data![index]['permitted']).toString() , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
+                                    ],
+                                  ),
+                                  Gap(10),
+                                  Column(
+                                    children: [
+                                      Text('Guests' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
+                                      Gap(5),
+                                      Text(snapshot.data![index]['is_guest'].toString() , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
+                                    ],
+                                  ),
+
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    padding: const EdgeInsets.only(left: 15 , right: 12 , top: 4 , bottom: 7),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              children: [
-                                Text((snapshot.data![index].location.toString().length >= 18 ) ?snapshot.data![index].location.toString().substring(0, 18) :snapshot.data![index].location.toString() , style: TextStyle(color: Colors.white),),
-                                Icon(Icons.location_on , color: Colors.white,),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text( get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()) , 'hh : mm a'), style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: Colors.white)),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text( get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()) , 'd MMM yyyy'), style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.event , color: Colors.green, size: 16,),
-                                Gap(3),
-                                Text(snapshot.data![index].title.toString() , style: TextStyle(color: Colors.white), softWrap: true,
-                                  maxLines: 2,)
-
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Gap(10),
-                                Column(
-                                  children: [
-                                    Text('Present' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
-                                    const Gap(5),
-                                    Text('101' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
-                                  ],
-                                ),
-                                const Gap(10),
-                                Column(
-                                  children: [
-                                    Text('Absent' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
-                                    const Gap(5),
-                                    Text('5', style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
-                                  ],
-                                ),
-                                const Gap(10),
-                                Column(
-                                  children: [
-                                    Text('Guests' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
-                                    const Gap(5),
-                                    Text('3' , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
-                                  ],
-                                ),
-
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-
                   );
                 },
               );
             } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
+              return  Center(
+                child: Text('${snapshot.error}'),
+              );
             }
             return  Center(
               child: const CircularProgressIndicator(),

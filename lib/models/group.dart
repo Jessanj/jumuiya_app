@@ -1,9 +1,11 @@
+import 'package:jumuiya_app/models/user.dart';
+
 class Group {
   late final int  id;
   late final String group_name;
   late final String? group_type;
   late final String? group_location;
-  late final String? members;
+  late final List<dynamic>? members;
   late final String? description;
   late final String group_number;
   late final String created_at;
@@ -29,7 +31,8 @@ class Group {
       group_number: json['group_number'].toString(),
       group_location: json['group_location'].toString(),
       group_type: json['group_type'].toString(),
-      members: json['members'].toString(),
+      members: json['members'].map((data) => UserModel.fromJson(data)).toList(),
+      // members: json['members'],
       description: json['description'].toString(),
       created_at:  json['created_at'].toString(),
       created_by: json['created_by'],

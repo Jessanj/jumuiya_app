@@ -37,4 +37,5 @@ class Styles {
       TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
   static TextStyle headLineStyle7 = TextStyle(
       fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal);
+
 }

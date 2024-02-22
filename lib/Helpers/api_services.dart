@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import "package:jumuiya_app/Helpers/api_URL.dart";
 import 'package:jumuiya_app/models/event.dart';
 import 'package:jumuiya_app/models/group.dart';
 import 'package:jumuiya_app/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/attendance.dart';
 
 class ApiService {
 
@@ -116,8 +119,11 @@ class ApiService {
         final body =  json.decode(response.body);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         // Save an token strings key.
+        print(body['user']['id'].toString() + " id fetch");
         await prefs.setString('jwt_token', body['jwt']);
         await prefs.setInt('userId', body['user']['id']);
+
+        print(prefs.getInt('userId').toString());
 
         return true;
 
@@ -220,7 +226,7 @@ class ApiService {
       );
       if (response.statusCode == 200) {
         List jsonResponse = json.decode(response.body);
-        print(jsonResponse);
+        // print(jsonResponse);
 
         return jsonResponse.map((data) => Event.fromJson(data)).toList();
 
@@ -250,13 +256,20 @@ class ApiService {
       if (response.statusCode == 200) {
 
         var jsonResponse = json.decode(response.body);
-        await prefs.setString('jumuiya_detail', jsonResponse.toString());
-        return jsonResponse.map((data) => Group.fromJson(data)).toList();
+        if(response.body.isEmpty){
+          await prefs.setString('jumuiya_detail', jsonResponse.toString());
+          return jsonResponse.map((data) => Group.fromJson(data)).toList();
+         }else{
+           return 'no_group';
+          // return Group(id: 0, group_name: 'null', group_number: 'null', created_at: 'null', created_by: 0, updated_at: 'null');
+        }
+
 
       }else{
-        return 'false';
+        return 'failed';
       }
     } catch(e) {
+      print(e);
       throw Exception('Failed to load groups');
     }
 
@@ -366,6 +379,7 @@ class ApiService {
        );
 
        final jsonResponse = json.decode(response.body);
+
        if(response.statusCode == 200){
           return jsonResponse;
        }else{
@@ -376,6 +390,196 @@ class ApiService {
        return Exception(e);
      }
   }
+
+  static Future<List<UserModel>> getGroupMembers (int groupID) async {
+
+    try {
+      // final url = Uri.parse('${ApiConstants.baseUrl}/group/$groupID${ApiConstants.joinGroup}');
+      final url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getUsers);
+      var response = await http.get(
+          url,
+          headers: {
+            "Content-Type": "application/json",
+            // "Cookie" : 'jwt=$token'
+          },
+      );
+
+      final jsonResponse = json.decode(response.body);
+      if(response.statusCode == 200){
+        return jsonResponse.map((data) => UserModel.fromJson(data)).toList();
+      }else{
+        throw Exception('Unexpected error occured!');
+      }
+
+    } catch (e){
+      throw Exception(e);
+    }
+  }
+
+  static Future addAttendance(attendance) async {
+    try {
+      final url = Uri.parse(ApiConstants.baseUrl+ApiConstants.addAttendance);
+      var response = await http.post(
+          url,
+          headers: {
+            "Content-Type": "application/json",
+            // "Cookie" : 'jwt=$token'
+          },
+          body: attendance
+      );
+      print(attendance);
+      print('add_attendance sent');
+
+      final jsonResponse = json.decode(response.body);
+
+      if(response.statusCode == 200){
+        return jsonResponse;
+      }else{
+        return 'failed';
+      }
+
+    } catch (e){
+      return Exception(e);
+    }
+  }
+
+  static Future getAttendance(event_id) async {
+    try {
+      final url = Uri.parse(ApiConstants.baseUrl+ApiConstants.getAttendance+'2'+'/'+event_id);
+
+      print(url);
+      var response = await http.get(
+          url,
+          headers: {
+            "Content-Type": "application/json",
+            // "Cookie" : 'jwt=$token'
+          },
+      );
+
+      // print(response.body.toString());
+
+      final jsonResponse = json.decode(response.body);
+
+      // print(jsonResponse);
+
+      if(response.statusCode == 200){
+        return jsonResponse;
+      }else{
+        return 'failed';
+      }
+
+    } catch (e){
+      return Exception(e);
+    }
+  }
+
+  static Future getMonthEvent() async {
+    try {
+      final url = Uri.parse(ApiConstants.baseUrl+ApiConstants.getMonthEvents);
+
+      print(url);
+      var response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          // "Cookie" : 'jwt=$token'
+        },
+      );
+
+      final jsonResponse = json.decode(response.body);
+
+      if(response.statusCode == 200){
+        return jsonResponse;
+      }else{
+        return 'failed';
+      }
+
+    } catch (e){
+      return Exception(e);
+    }
+  }
+
+  static Future getUser(user_id) async {
+    try {
+    final url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getUser + user_id.toString());
+    var response = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        // "Cookie" : 'jwt=$token'
+      },
+    );
+    print(response);
+    final jsonResponse = json.decode(response.body);
+
+    if(response.statusCode == 200){
+      return jsonResponse;
+    }else{
+      return 'failed';
+    }
+
+    } catch (e){
+      return Exception(e);
+    }
+
+  }
+
+  static Future updateUser(Map<String, dynamic> userDetail) async {
+    try {
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.updateUser);
+      var jsonBody = json.encode(userDetail);
+
+      var response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: jsonBody);
+
+      var body = json.decode(response.body);
+
+      print(body);
+
+      if(response.statusCode == 200){
+        return true;;
+      }else{
+        return false;
+      }
+
+    } catch (e) {
+      log(e.toString());
+      return 'System Error';
+    }
+
+  }
+
+  // Future<void> uploadImageToApi() async {
+  //   final pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+  //
+  //   if (pickedFile == null) {
+  //     return; // User canceled or failed to pick image
+  //   }
+  //
+  //   final bytes = await pickedFile.readAsBytes();
+  //
+  //   // Prepare image data (e.g., resize, compress)
+  //
+  //   final uri = Uri.parse('https://your-api-endpoint');
+  //   final request = http.MultipartRequest('POST', uri);
+  //   request.fields['description'] = 'My picture';
+  //   request.files.add(
+  //     http.MultipartFile.fromBytes('image', bytes, filename: 'image.jpg'),
+  //   );
+  //
+  //   final response = await request.send();
+  //
+  //   if (response.statusCode == 200) {
+  //     print('Image uploaded successfully!');
+  //   } else {
+  //     print('Error uploading image: ${response.statusCode}');
+  //   }
+  // }
+
+
+
+
 
 
 }

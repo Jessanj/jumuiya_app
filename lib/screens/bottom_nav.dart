@@ -63,6 +63,7 @@ class _BottomNavState extends State<BottomNav> {
           child: _widgetOptions[_selectedIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          // backgroundColor : Colors.blue,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           elevation: 10,

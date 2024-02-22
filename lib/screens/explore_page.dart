@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../util/app_colors.dart';
 import '../widgets/left_drawer.dart';
 import 'attandance/attendance_page.dart';
-import 'chats/chats_page.dart';
+import 'chats/chat_group_message.dart';
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
 
@@ -67,7 +67,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ChatsPage()),
+                    MaterialPageRoute(builder: (context) => const ChatGroupMessage()),
                   );
                 },
               ),

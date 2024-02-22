@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:jumuiya_app/Helpers/api_services.dart';
+import 'package:jumuiya_app/screens/Transaction/create_payment_page.dart';
 import 'package:jumuiya_app/screens/notifications_page.dart';
 import 'package:jumuiya_app/screens/reg_groups/register_jumuiya_page.dart';
 import 'package:jumuiya_app/screens/shares_page.dart';
@@ -13,6 +14,7 @@ import '../widgets/left_drawer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'contribution_page.dart';
+import 'login_page.dart';
 
 class LangItem {
   const LangItem(this.name,this.icon);
@@ -34,7 +36,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     checkJumuiya();
   }
   int _slidercurrent = 0;
@@ -62,14 +63,15 @@ class _HomePageState extends State<HomePage> {
   void checkJumuiya() async {
     final prefs = await SharedPreferences.getInstance();
     var id = prefs.getInt('userId');
-    print(id);
-    var group = await  ApiService.getUserGroup(id!);
+    var group;
+     id == null ? Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()))  :
+     group = await  ApiService.getUserGroup(id);
     if(group == 'failed'){
-
-    }else{
       if(group.length <= 0 || true ){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RegisterJumuiyaPage())) ;
       }
+    }else{
+
     }
   }
   
@@ -171,47 +173,47 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.only(left: 8, right: 8),
           children: [
-            const Gap(6),
-            Card(
-                child: SizedBox(
-                  height: 65,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children:  [
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            image: const DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage('assets/images/jmProfile.jpg')
-                            )
-                        ),
-                      ),
-                      Text("JESSAN MICHAEL", style: Styles.usernameStyle,),
-                      SizedBox(
-                        height: 55,
-                        width: 55,
-                        child: IconButton(
-                          icon: const Icon(Icons.wallet),
-                          color: Styles.secondaryColor,
-                          iconSize: 40,
-                          tooltip: 'Notifications',
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const NotificationPage()),
-                            );
-                          },
-                        ) ,
-                      ),
-                    ],
-                  ),
-                )
-            ),
-            const Gap(8),
+            // const Gap(6),
+            // Card(
+            //     child: SizedBox(
+            //       height: 65,
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         crossAxisAlignment: CrossAxisAlignment.center,
+            //         children:  [
+            //           Container(
+            //             height: 60,
+            //             width: 60,
+            //             decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(30),
+            //                 image: const DecorationImage(
+            //                     fit: BoxFit.fitHeight,
+            //                     image: AssetImage('assets/images/jmProfile.jpg')
+            //                 )
+            //             ),
+            //           ),
+            //           Text("JESSAN MICHAEL", style: Styles.usernameStyle,),
+            //           SizedBox(
+            //             height: 55,
+            //             width: 55,
+            //             child: IconButton(
+            //               icon: const Icon(Icons.wallet),
+            //               color: Styles.secondaryColor,
+            //               iconSize: 40,
+            //               tooltip: 'Notifications',
+            //               onPressed: () {
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(builder: (context) => const NotificationPage()),
+            //                 );
+            //               },
+            //             ) ,
+            //           ),
+            //         ],
+            //       ),
+            //     )
+            // ),
+            const Gap(9),
             SizedBox(
               height: size.height*0.3,
               child: Column(
@@ -554,7 +556,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                               color : Colors.blue,
                               child: InkWell(
-                                onTap: (){ print("Card donate"); }, child: SizedBox(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) =>  const CreatePaymentPage()),
+                                  );
+                                }, child: SizedBox(
                                 height: 50,
                                 width: 90,
                                 child: Container(
@@ -660,7 +667,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         color : Colors.grey.shade500,
                         child: SizedBox(
-                          height: 149,
+                          height: 170,
                           width: 100,
                           child: Container(
                               padding: const EdgeInsets.all(3),
@@ -681,7 +688,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Family" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("20"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -691,7 +698,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Members" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("200"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -717,7 +724,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         color : Colors.grey.shade500,
                         child: SizedBox(
-                          height: 149,
+                          height: 170,
                           width: 100,
                           child: Container(
                               padding: const EdgeInsets.all(3),
@@ -738,7 +745,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Family" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("2"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -748,7 +755,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Members" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("20"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -775,7 +782,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         color : Colors.grey.shade500,
                         child: SizedBox(
-                          height: 149,
+                          height: 170,
                           width: 100,
                           child: Container(
                               padding: const EdgeInsets.all(3),
@@ -796,7 +803,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Family" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("5"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -806,7 +813,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Members" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("10"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -833,7 +840,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         color : Colors.grey.shade500,
                         child: SizedBox(
-                          height: 149,
+                          height: 170,
                           width: 100,
                           child: Container(
                               padding: const EdgeInsets.all(3),
@@ -854,7 +861,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Family" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("10"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -864,7 +871,7 @@ class _HomePageState extends State<HomePage> {
                                     endIndent: 0, //spacing at the end of divider
                                   ),
                                   Text("Members" , style: Styles.headLineStyle7,),
-                                  const Gap(5),
+                                  const Gap(2),
                                   Text("20"),
                                   const Divider(
                                     color: Colors.black, //color of divider
@@ -875,7 +882,6 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Text("New" , style: Styles.headLineStyle7,),
                                   Text("5")
-
                                 ],
                               )
                           ),
@@ -885,10 +891,37 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            )
+            ),
+            const Gap(20),
           ],
         )
     );
 
   }
+
+   Future<bool> backPressedDialog() {
+     return showDialog(
+       context: context,
+       builder: (context) {
+         return AlertDialog(
+           title: Text('Exit App'),
+           content: Text('Do you want to exit the app?'),
+           actions: [
+             TextButton(
+               child: Text('Cancel'),
+               onPressed: () {
+                 Navigator.pop(context, false);
+               },
+             ),
+             TextButton(
+               child: Text('Exit'),
+               onPressed: () {
+                 Navigator.pop(context, true);
+               },
+             ),
+           ],
+         );
+       },
+     ).then((value) => value as bool);
+   }
 }

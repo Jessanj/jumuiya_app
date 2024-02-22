@@ -11,11 +11,11 @@ class ChatMessagePage extends StatefulWidget {
 class _ChatMessageState extends State<ChatMessagePage> {
 
   List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(messageContent: "Hey Kriss, I am doing fine dude. wbu?", messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(messageContent: "Is there any thing wrong?", messageType: "sender"),
+    ChatMessage(messageContent: "Hello, Will", messageType: "receiver" , created_at: '23:23' , group_id: '2'),
+    ChatMessage(messageContent: "How have you been?", messageType: "receiver" , created_at: '23:23' , group_id: '2'),
+    ChatMessage(messageContent: "Hey Kriss, I am doing fine dude. wbu?", messageType: "sender" , created_at: '23:23' , group_id: '2'),
+    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver" , created_at: '23:23' , group_id: '2'),
+    ChatMessage(messageContent: "Is there any thing wrong?", messageType: "sender" , created_at: '23:23' , group_id: '2'),
   ];
 
   @override

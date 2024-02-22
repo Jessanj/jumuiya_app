@@ -6,5 +6,27 @@
   "by_continuing" : "Kwa kuendelea , Mimi nakubaliana na",
   "community_quote" : "Ukuu wa jumuiya hupimwa kwa usahihi zaidi na matendo ya huruma ya wanachama wake",
   "terms_condition" : "Sheria na Masharti",
-  "personal_information" : "Taarifa Binafsi"
+  "personal_information" : "Taarifa Binafsi",
+  "group_information": "Taarifa za kikundi",
+  "phone_number" : "Namba ya simu",
+  "home_address" : "Anuani ya makazi",
+  "map_address" : "Anuani kwenye Ramani",
+  "name": "Jina",
+  "group_type" : "Aina ya Kikundi",
+  "location" : "Eneo",
+  "members" : "Wanachama",
+  "created_date" : "tarehe iliyoundwa",
+  "more_details" : "Maelezo zaidi..",
+  "group_number" : "Namba ya Kikundi",
+  "date_join" : "Tarehe ya kujiunga",
+  "total_attendance" : "Jumla ya Mahuzulio",
+  "total_contribution": "Jumla ya Michango",
+  "members_details" : "Taarifa za Mwanachama",
+  "attendance_info" : "Taarifa za Mahuzulio",
+  "contribution Details" : "Taarifa za Michango",
+  "edit_user_detail" : "Hariri Taarifa za Mtumiaji",
+  "update" : "Sasisha",
+  "no_group_attached" : "Hujaungwa katika kikundi"
+
+
 }

@@ -97,7 +97,7 @@ class _AddEventWidgetState extends State<AddEventWidget> {
               if (value == null || value == "") {
                 return "Please enter event title.";
               }
-              if(value.length <= 50){
+              if(value.length >= 50){
                 return "Event Title must be less than 50 char.";
               }
               return null;

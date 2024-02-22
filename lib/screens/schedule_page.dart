@@ -15,6 +15,7 @@ import '../util/app_styles.dart';
 import '../widgets/add_event_widget.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/month_view_widget.dart';
+import 'attandance/attendance_details.dart';
 import 'create_event_page.dart';
 import 'month_view_page.dart';
 
@@ -80,19 +81,9 @@ class _SchedulePageState extends State<SchedulePage> {
        }
     }
 
-    return MaterialApp(
-        title: 'Schedule and Events Page',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.light(),
-        scrollBehavior: ScrollBehavior().copyWith(
-          dragDevices: {
-            PointerDeviceKind.trackpad,
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.touch,
-          },
-        ),
-        home: Scaffold(
+    return  Scaffold(
           appBar: AppBar(
+            title: const Text('Events & Schedule') ,
             backgroundColor: AppColors.navyBlue,
             actions: <Widget>[
               DropdownButton(
@@ -184,132 +175,76 @@ class _SchedulePageState extends State<SchedulePage> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
-                                    // return Container(
-                                    //   alignment: Alignment.topLeft,
-                                    //   margin: const EdgeInsets.only(right: 5 , top: 5 , bottom: 5),
-                                    //   height: 110,
-                                    //   width: size.width*0.5,
-                                    //   padding: const EdgeInsets.only(left: 5, right: 5),
-                                    //   decoration: const BoxDecoration(
-                                    //       color: AppColors.barBg,
-                                    //       borderRadius: BorderRadius.vertical(bottom: Radius.circular(10) , top: Radius.circular(10) )
-                                    //   ),
-                                    //   child: Column(
-                                    //       mainAxisAlignment: MainAxisAlignment.start,
-                                    //       children: [
-                                    //         Row(
-                                    //           mainAxisAlignment: MainAxisAlignment.center,
-                                    //           children: [
-                                    //             Padding(
-                                    //               padding: const EdgeInsets.only(left: 2 , right: 2),
-                                    //               child: Text(snapshot.data![index].title,
-                                    //                 style: const TextStyle(
-                                    //                   fontFamily: "Poppins",
-                                    //                   fontWeight: FontWeight.w500,
-                                    //                   fontSize: 18,
-                                    //                 ),
-                                    //               ),
-                                    //             )
-                                    //           ],
-                                    //         ),
-                                    //
-                                    //         Row(
-                                    //           mainAxisAlignment: MainAxisAlignment.start,
-                                    //           children: [
-                                    //             Container(
-                                    //                 height: 80,
-                                    //                 width: 80,
-                                    //                 padding: EdgeInsets.only(left: 5 , right: 5),
-                                    //                 alignment: Alignment.center,
-                                    //                 decoration: BoxDecoration(
-                                    //                   color: AppColors.primary_bg_border,
-                                    //                   borderRadius: BorderRadius.circular(5),
-                                    //                 ),
-                                    //                 child: Column(
-                                    //                   mainAxisAlignment: MainAxisAlignment.center,
-                                    //                   children: [
-                                    //                     Text(get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()), 'd').toString() , style: Styles.headLineStyle2w,) ,
-                                    //                     Text(get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()), 'MMM').toString() , style: Styles.headLineStyle2w,) ,
-                                    //                   ],
-                                    //                 )
-                                    //             ),
-                                    //             const Gap(5),
-                                    //             Expanded(
-                                    //                 child: Text(snapshot.data![index].description.toString(),
-                                    //                   style: const TextStyle(
-                                    //                       fontFamily: "Poppins",
-                                    //                       fontWeight: FontWeight.w500,
-                                    //                       fontSize: 14
-                                    //                   ),
-                                    //                 )
-                                    //             )
-                                    //           ],
-                                    //         ),
-                                    //
-                                    //       ]
-                                    //   ),
-                                    // );
-                                    return  Padding(padding: EdgeInsets.only(top: 5 , bottom: 5) , child:
-                                    SizedBox(
-                                        height: 90,
-                                        // width: size.width*0.5,
-                                        child :
-                                        ListTile(
-                                          leading: Container(
-                                              width: 100,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                color: AppColors.primary_bg_border,
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  (checkEventDate(snapshot.data![index].startDate.toString(),snapshot.data![index].endDate.toString()) == 'day-diff-same-m') ?
-                                                  Column(
-                                                    children: [
-                                                      Text(get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()), 'd').toString()+' - '+get_date_from_string(DateTime.parse(snapshot.data![index].endDate.toString()), 'd MMM').toString() , style: Styles.headLineStyle3,),
-                                                      Text(get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()), 'h:mm a').toString() , style: Styles.headLineStyle3,)
-                                                    ],
-                                                  ) :
-                                                  (checkEventDate(snapshot.data![index].startDate.toString(),snapshot.data![index].endDate.toString()) == 'month-diff') ?
-                                                  Column(
-                                                    children: [
-                                                      Text(get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()), 'd MMM').toString() , style: Styles.headLineStyle3,),
-                                                      Text('to' , style: Styles.headLineStyle4),
-                                                      Text(get_date_from_string(DateTime.parse(snapshot.data![index].endDate.toString()), 'd MMM').toString() , style: Styles.headLineStyle3,),
-                                                    ],
-                                                  ) :
-                                                  (checkEventDate(snapshot.data![index].startDate.toString(),snapshot.data![index].endDate.toString()) == 'same') ?
-                                                  Column(
-                                                    children: [
-                                                      Text(get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()), 'd MMM').toString() , style: Styles.headLineStyle3,),
-                                                      Text(get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()), 'h:mm a').toString(), style: Styles.headLineStyle3,)
-                                                    ],
-                                                  ) : Container() ,
+                                    return GestureDetector(
+                                      onTap: (){
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => EventDetailsDetails(snapshot.data![index]['event_id'].toString())));
+                                      },
 
-                                                ],
-                                              )
+                                      child: Container(
+                                        margin: EdgeInsets.only(top: 8 , right: 10 , left: 10),
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.lightNavyBlue,
+                                          borderRadius: BorderRadius.circular(20),
+                                          gradient: const LinearGradient(
+                                            colors: [AppColors.attendanceBlue, AppColors.attendanceDBlue],
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
                                           ),
-                                          title: Text(snapshot.data![index].title+' ('+snapshot.data![index].location.toString()+')'),
-                                          subtitle: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text(snapshot.data![index].description.toString()),
-                                            ],
-                                          ),
-                                          tileColor: AppColors.barBg,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            side: BorderSide(color: Colors.black38),
-                                          ),
+                                        ),
+                                        padding: const EdgeInsets.only(left: 15 , right: 12 , top: 4 , bottom: 7),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(Icons.event , color: Colors.white,),
+                                                Text((snapshot.data![index].title.toString().length > 18 ) ?snapshot.data![index].title.toString().substring(0, 18) :snapshot.data![index].title.toString() , style: TextStyle(fontSize: 18 ,color: Colors.white),),
+                                              ],
+                                            ),
 
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text( get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()) , 'hh : mm a'), style: TextStyle(fontSize: 20 , fontWeight: FontWeight.bold , color: Colors.white)),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text( get_date_from_string(DateTime.parse(snapshot.data![index].startDate.toString()) , 'd MMM yyyy'), style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white)),
+                                                      ],
+                                                    ),
+
+                                                  ],
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                      children: [
+                                                        Icon(Icons.location_on , color: Colors.green, size: 16,),
+                                                        Gap(3),
+                                                        Text((snapshot.data![index].location.toString().length > 21 ) ?snapshot.data![index].location.toString().substring(0, 21) :snapshot.data![index].location.toString() , style: TextStyle(color: Colors.white),),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         )
-                                    ));
+                                      ),
+                                    );
                                   },
                                 );
                               } else if (snapshot.hasError) {
-                                print('duh error');
+                                print('error happen');
                                 return Text('${snapshot.error}');
                               }
                               return const  Center(
@@ -326,7 +261,6 @@ class _SchedulePageState extends State<SchedulePage> {
                   ],
                 )
           )
-        ),
       );
   }
 }
