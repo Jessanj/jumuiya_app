@@ -122,7 +122,10 @@ class ApiService {
         print(body['user']['id'].toString() + " id fetch");
         await prefs.setString('jwt_token', body['jwt']);
         await prefs.setInt('userId', body['user']['id']);
-
+        await prefs.setString('full_name', body['user']['first_name'] +' '+body['user']['last_name']);
+        await prefs.setString('phone', body['user']['phone']);
+        await prefs.setString('email', body['user']['email']);
+        await prefs.setString('profile_image', body['user']['profile_image'].toString());
         print(prefs.getInt('userId').toString());
 
         return true;
@@ -254,16 +257,16 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-
         var jsonResponse = json.decode(response.body);
-        if(response.body.isEmpty){
+        if(jsonResponse.isNotEmpty){
+          print(jsonResponse);
           await prefs.setString('jumuiya_detail', jsonResponse.toString());
+          await prefs.setString('groupId', jsonResponse.body['id']);
           return jsonResponse.map((data) => Group.fromJson(data)).toList();
          }else{
            return 'no_group';
           // return Group(id: 0, group_name: 'null', group_number: 'null', created_at: 'null', created_by: 0, updated_at: 'null');
         }
-
 
       }else{
         return 'failed';
@@ -345,7 +348,6 @@ class ApiService {
         },
       );
 
-
       if(response.statusCode == 200){
         final jsonResponse = json.decode(response.body);
         var groupJson = Group.fromJson(jsonResponse);
@@ -405,6 +407,7 @@ class ApiService {
       );
 
       final jsonResponse = json.decode(response.body);
+      print(jsonResponse);
       if(response.statusCode == 200){
         return jsonResponse.map((data) => UserModel.fromJson(data)).toList();
       }else{
@@ -475,24 +478,30 @@ class ApiService {
 
   static Future getMonthEvent() async {
     try {
-      final url = Uri.parse(ApiConstants.baseUrl+ApiConstants.getMonthEvents);
+        final prefs = await SharedPreferences.getInstance();
+        final groupId = await prefs.getString('groupId');
 
-      print(url);
-      var response = await http.get(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-          // "Cookie" : 'jwt=$token'
-        },
-      );
+        if(groupId == null){
+          return [];
+        }else{
+          final url = Uri.parse(ApiConstants.baseUrl+ApiConstants.getMonthEvents);
+          print(url);
+          var response = await http.get(
+            url,
+            headers: {
+              "Content-Type": "application/json",
+              // "Cookie" : 'jwt=$token'
+            },
+          );
 
-      final jsonResponse = json.decode(response.body);
+          final jsonResponse = json.decode(response.body);
 
-      if(response.statusCode == 200){
-        return jsonResponse;
-      }else{
-        return 'failed';
-      }
+          if(response.statusCode == 200){
+            return jsonResponse;
+          }else{
+            return 'failed';
+          }
+        }
 
     } catch (e){
       return Exception(e);
@@ -538,7 +547,7 @@ class ApiService {
       print(body);
 
       if(response.statusCode == 200){
-        return true;;
+        return true;
       }else{
         return false;
       }
@@ -547,7 +556,99 @@ class ApiService {
       log(e.toString());
       return 'System Error';
     }
+  }
 
+  static Future getGroupLeader (String groupID) async {
+    try {
+      final url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getGroupsLeader + groupID.toString());
+      var response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          // "Cookie" : 'jwt=$token'
+        },
+      );
+      print(response.body);
+      final jsonResponse = json.decode(response.body);
+      if(response.statusCode == 200){
+        return jsonResponse;
+      }else if(response.statusCode == 404){
+        return 'no_leader';
+      }else{
+        return 'failed';
+      }
+
+    } catch (e){
+      return Exception(e);
+    }
+  }
+
+ static Future getRoles() async {
+    try {
+      final url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getRoles);
+      var response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          // "Cookie" : 'jwt=$token'
+        },
+      );
+
+      final jsonResponse = json.decode(response.body);
+      if(response.statusCode == 200){
+        return jsonResponse;
+      }
+
+    } catch (error) {
+      // Handle network or other errors
+      print('Error getting role: $error');
+    }
+}
+static Future getUserRole(String userId) async {
+  try {
+    final url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getUserRoles + userId);
+    var response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          // "Cookie" : 'jwt=$token'
+        },
+    );
+
+    final jsonResponse = json.decode(response.body);
+    if(response.statusCode == 200){
+      return jsonResponse;
+    }
+
+  } catch (error) {
+    // Handle network or other errors
+    print('Error getting role: $error');
+  }
+}
+  static Future<void> updateUserRole(String userId , String roleId) async {
+    try {
+      final url = Uri.parse(ApiConstants.baseUrl + ApiConstants.getGroupsLeader);
+      var response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          // "Cookie" : 'jwt=$token'
+        },
+        body : {
+          'user_id' : userId,
+          'role_id' : roleId,
+        }
+      );
+
+      final jsonResponse = json.decode(response.body);
+      if(response.statusCode == 200){
+        return jsonResponse;
+      }
+
+    } catch (error) {
+      // Handle network or other errors
+      print('Error getting role: $error');
+    }
   }
 
   // Future<void> uploadImageToApi() async {

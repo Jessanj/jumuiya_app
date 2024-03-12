@@ -27,12 +27,17 @@ class MyApp extends StatelessWidget {
         primaryColor: AppColors.navyBlue,
         backgroundColor: Colors.white,
       ),
-
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-
+      localizationsDelegates:[
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en'), // Swahili
+    ],
       home: const SplashScreen() ,
-      locale: Locale('sw'),
+      locale: Locale('en'),
     );
   }
 }

@@ -6,12 +6,15 @@ import 'package:jumuiya_app/screens/attandance/attendance_page.dart';
 import 'package:jumuiya_app/screens/bottom_nav.dart';
 import 'package:jumuiya_app/screens/chats/chat_group_message.dart';
 import 'package:jumuiya_app/screens/contribution_page.dart';
+import 'package:jumuiya_app/screens/groups/group_detail_page.dart';
 import 'package:jumuiya_app/screens/home_page.dart';
 import 'package:jumuiya_app/screens/login_page.dart';
 import 'package:jumuiya_app/screens/members_page.dart';
 import 'package:jumuiya_app/screens/schedule_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helpers/api_services.dart';
+import '../screens/elections/create_election_page.dart';
 import '../util/app_colors.dart';
 
 class LeftDrawer extends StatefulWidget {
@@ -19,15 +22,27 @@ class LeftDrawer extends StatefulWidget {
 
   @override
   State<LeftDrawer> createState() => _LeftDrawerState();
+
 }
 
 class _LeftDrawerState extends State<LeftDrawer> {
+
+   Future _fetchData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    Map<String, dynamic> userData = {
+      'full_name' : pref.getString('full_name'),
+      'phone' : pref.getString('phone'),
+      'email' : pref.getString('email'),
+      'profile_image' : pref.getString('profile_image')
+    };
+    return userData;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        const SizedBox(
+         SizedBox(
           height:150,
           child:
           DrawerHeader(
@@ -37,23 +52,38 @@ class _LeftDrawerState extends State<LeftDrawer> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/jmProfile.jpg'),
-                        maxRadius: 20,
-                      ),
-                      Gap(4),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Jessan Josephat', style: TextStyle(fontSize: 16 , color: Colors.white), ),
-                          Text('jessan.josephat@gmail',style: TextStyle(fontSize: 13,color: Colors.white),textAlign: TextAlign.start,),
-                          Text('0687062638' , style: TextStyle(fontSize: 13, color: Colors.white)),
-                        ],
-                      )
-                    ],
+                  child: FutureBuilder(
+                    future: _fetchData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Row(
+                          children: [
+                            snapshot.data['profile_image'].toString() == 'null' ?
+                            CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/avatorProfile.png'),
+                              maxRadius: 30,
+                            ) :
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(snapshot.data['profile_image'].toString()),
+                              maxRadius: 30,
+                            ),
+                            Gap(4),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(snapshot.data['full_name'].toString(), style: TextStyle(fontSize: 16 , color: Colors.white), ),
+                                Text(snapshot.data['email'].toString(),style: TextStyle(fontSize: 13,color: Colors.white),textAlign: TextAlign.start,),
+                                Text(snapshot.data['phone'].toString() , style: TextStyle(fontSize: 13, color: Colors.white)),
+                              ],
+                            )
+                          ],
+                        );
+                      } else {
+                        // Show loading indicator or other placeholder
+                        return CircularProgressIndicator();
+                      }
+                    },
                   ),
                 ),
                 // Icon(Icons.arrow_forward_ios_outlined)
@@ -85,6 +115,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
                 title: const Text('jumuiya/Group Detail'),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const GroupDetailPage() ));
                 },
               ),
             ),
@@ -161,6 +192,18 @@ class _LeftDrawerState extends State<LeftDrawer> {
               },
             ),
           ),
+        SizedBox(
+              height: 50,
+              child: ListTile(
+                leading: Icon(Icons.how_to_vote),
+                title: const Text('Votes & Leadership'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => const CreateElectionPage()));
+                },
+              ),
+            ),
           SizedBox(
             height: 50,
             child: ListTile(

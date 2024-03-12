@@ -50,7 +50,6 @@ class _AttendancePageState extends State<AttendancePage> {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index)  {
-                  print('0i');
                   print(snapshot.data![index]);
                   return GestureDetector(
                     onTap: (){

@@ -6,6 +6,7 @@ import 'package:jumuiya_app/models/attendance.dart';
 import 'package:jumuiya_app/models/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jumuiya_app/screens/users/edit_user_detail_page.dart';
+import 'package:jumuiya_app/screens/users/user_role_page.dart';
 
 import '../util/app_colors.dart';
 import '../util/app_layouts.dart';
@@ -156,6 +157,21 @@ class _MemberDetailState extends State<MemberDetail> {
                           child: Text('Edit'),
                         ),
                       ),
+                      Positioned(
+                        top: 50,
+                        left: 30,
+                        child: ElevatedButton(onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => UserRolePage(widget.userData)));
+                        },
+                          style:ButtonStyle() ,
+                          child: Row(
+                            children: [
+                              Icon(Icons.edit , size:17,),
+                              Text('Roles')
+                            ],
+                          ),
+                        ),
+                      ),
 
                     ],
                   ),
@@ -257,7 +273,7 @@ class _MemberDetailState extends State<MemberDetail> {
                             Container(
                               margin: EdgeInsets.only(left: 20),
                               child: Text(AppLocalizations.of(context)!.attendance_info, style: Styles.headLineStyle2 ),
-                            )
+                            ),
                           ],
                         ),
                       ],

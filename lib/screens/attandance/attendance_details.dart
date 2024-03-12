@@ -10,6 +10,8 @@ import '../../util/app_colors.dart';
 import '../../util/app_styles.dart';
 import '../../util/constants.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AttendanceDetails extends StatefulWidget {
 
    final String eventId;
@@ -62,7 +64,6 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -98,7 +99,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
               Gap(10),
               Column(
                 children: [
-                  Text('Present' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
+                  Text(AppLocalizations.of(context)!.present , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
                   Gap(5),
                   Text(present.toString(), style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
                 ],
@@ -106,7 +107,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
               Gap(10),
               Column(
                 children: [
-                  Text('Absent' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
+                  Text(AppLocalizations.of(context)!.absent  , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
                   Gap(5),
                   Text( absent.toString(), style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
                 ],
@@ -114,7 +115,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
               Gap(10),
               Column(
                 children: [
-                  Text('Geusts' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
+                  Text(AppLocalizations.of(context)!.guest  , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
                   Gap(5),
                   Text(geust.toString(), style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
                 ],
@@ -122,7 +123,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
               Gap(10),
               Column(
                 children: [
-                  Text('Remains' , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
+                  Text(AppLocalizations.of(context)!.remains  , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.black)),
                   Gap(5),
                   Text((all - (present+absent)).toString() , style: TextStyle(fontWeight: FontWeight.bold , fontSize: 18),)
                 ],
@@ -136,7 +137,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
             child: TextFormField(
               scrollPadding: EdgeInsets.only(bottom:100),
               decoration:  AppConstants.inputDecorationForms.copyWith(
-                  hintText: 'Filter Search',
+                  hintText: AppLocalizations.of(context)!.filter_search,
                   prefixIcon: Icon(Icons.search,color: Colors.grey.shade600, size: 20,),
                   suffixIcon: Icon(Icons.filter_list , color: Colors.grey.shade600, size: 20,)
               ),
@@ -148,7 +149,6 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
             ),
           ),
           const Gap(5),
-
           Expanded(
             child:  FutureBuilder(
               future: ApiService.getAttendance(widget.eventId),
@@ -162,7 +162,7 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                         Container(
                             margin:EdgeInsets.only(top: 3 , bottom: 3 , left: 15 , right: 15) ,
                             decoration: BoxDecoration(
-                              color: AppColors.bluishGrey,
+                              color: AppColors.lightNavyBlue,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: ListTile(
@@ -171,52 +171,46 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                             subtitle: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Padding(padding: EdgeInsets.only(right: 10),
-                                  child : TextButton(
-                                    onPressed: () {
-                                      var attendance = jsonEncode({
-                                         'event_id' : widget.eventId,
-                                         'status' : 'present',
-                                         'user_id' : userattendance['user_id']
-                                      });
-                                      var response = ApiService.addAttendance(attendance);
-                                      setState(() {
-                                        // present++;
-                                        getAttendanceData();
-                                      });
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.check , color: Colors.green,  size: 28,),
-                                        Text('present', style: TextStyle(color: Colors.green),),
-                                      ],),
-                                  ),
-
+                                TextButton(
+                                  onPressed: () {
+                                    var attendance = jsonEncode({
+                                      'event_id' : widget.eventId,
+                                      'status' : 'present',
+                                      'user_id' : userattendance['user_id']
+                                    });
+                                    var response = ApiService.addAttendance(attendance);
+                                    setState(() {
+                                      // present++;
+                                      getAttendanceData();
+                                    });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon(Icons.check , color: Colors.green,  size: 28,),
+                                      Text(AppLocalizations.of(context)!.present_, style: TextStyle(color: Colors.green , fontWeight: FontWeight.bold),),
+                                    ],),
                                 ),
-                                Padding(padding: EdgeInsets.only(right: 10),
-                                  child : TextButton(
-                                    onPressed: () {
-                                      var attendance = jsonEncode({
-                                        'event_id' : widget.eventId,
-                                        'status' : 'absent',
-                                        'user_id' : userattendance['user_id']
-                                      });
-                                      var response = ApiService.addAttendance(attendance);
-                                      setState(() {
-                                        status = "Absent";
-                                        getAttendanceData();
-                                      });
-                                    },
-                                    child:  Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.group_off , color: Colors.red, size: 28,),
-                                        Text(" Absent" , style: TextStyle(color: Colors.red)),
-                                      ],),
-                                  ),
+                                TextButton(
+                                  onPressed: () {
+                                    var attendance = jsonEncode({
+                                      'event_id' : widget.eventId,
+                                      'status' : 'absent',
+                                      'user_id' : userattendance['user_id']
+                                    });
+                                    var response = ApiService.addAttendance(attendance);
+                                    setState(() {
+                                      status = "Absent";
+                                      getAttendanceData();
+                                    });
+                                  },
+                                  child:  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.group_off , color: Colors.red, size: 28,),
+                                      Text(AppLocalizations.of(context)!.absent_, style: TextStyle(color: Colors.red , fontWeight: FontWeight.bold)),
+                                    ],),
                                 ),
-                                Padding(padding:  EdgeInsets.only(right: 10) ,  child:
                                 TextButton(
                                   onPressed: () {
                                     var attendance = jsonEncode({
@@ -234,9 +228,8 @@ class _AttendanceDetailsState extends State<AttendanceDetails> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.done_all , color: Colors.orange, size: 28,),
-                                      Text("Permit" , style: TextStyle(color: Colors.orange)),
+                                      Text(AppLocalizations.of(context)!.permit_ , style: TextStyle(color: Colors.orange , fontWeight: FontWeight.bold)),
                                     ],),
-                                ),
                                 ),
                               ],
                             ),

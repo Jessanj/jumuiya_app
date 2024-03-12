@@ -92,17 +92,19 @@ Future<void> _onIntroEnd(context)  async {
     ),
 
       globalFooter: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: ElevatedButton(
-          style:  ElevatedButton.styleFrom(
-              backgroundColor : AppColors.primary_bg_hover ) ,
-          child: const Text(
-            'Let\'s go right away!',
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        width: size.width,
+        child: Padding(
+          padding: EdgeInsets.only(left: 10 , right: 10 , bottom: 20),
+          child: ElevatedButton(
+            style:  ElevatedButton.styleFrom(
+                backgroundColor : AppColors.navyBlue) ,
+            child: const Text(
+              'Let\'s go right away!',
+              style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+            onPressed: () => _onIntroEnd(context),
           ),
-          onPressed: () => _onIntroEnd(context),
-        ),
+        )
       ),
       pages: [
       PageViewModel(

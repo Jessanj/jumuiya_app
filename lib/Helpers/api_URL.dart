@@ -18,5 +18,9 @@ class ApiConstants {
   static String getMonthEvents = '/event/get_month_events';
   static String updateUser = '/user/update_user';
   static String updateProfileImage = '/user/update_profile_image';
+  static String getGroupsLeader = '/group/get_group_leader/';
+  static String getRoles = '/role/get_roles';
+  static String getUserRoles = '/role/get_user_role/';
+  static String addUserRole = '/role/add_user/role';
 
 }

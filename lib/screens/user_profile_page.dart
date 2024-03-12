@@ -50,7 +50,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.navyBlue,
-        title: const Text('My Profile'),
+        title: Text(AppLocalizations.of(context)!.my_profile),
       ),
       drawer:  const Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -77,7 +77,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           width: size.width,
                           height: 200,
                           decoration: BoxDecoration(
-                              color: Colors.black12,
+                              color: AppColors.lightNavyBlue,
                               borderRadius: BorderRadius.circular(30)
                           ),
                           child: Column(
@@ -122,12 +122,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                       Container(
                                         margin: EdgeInsets.only(left: 30),
                                         alignment: Alignment.center,
-                                        child: Text(AppLocalizations.of(context)!.total_attendance , style: TextStyle(fontSize: 15 , fontWeight: FontWeight.bold , color: Colors.black38),),
+                                        child: Text(AppLocalizations.of(context)!.total_attendance , style: TextStyle(fontSize: 15 , fontWeight: FontWeight.bold , color: Colors.black),),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(right: 30),
                                         alignment: Alignment.center,
-                                        child: Text(AppLocalizations.of(context)!.total_contribution , style: TextStyle(fontSize: 15 , fontWeight: FontWeight.bold , color: Colors.black38),),
+                                        child: Text(AppLocalizations.of(context)!.total_contribution , style: TextStyle(fontSize: 15 , fontWeight: FontWeight.bold , color: Colors.black),),
                                       ),
                                     ],
                                   )
@@ -272,7 +272,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     height: 230,
                     width: 10,
                     decoration: BoxDecoration(
-                        color: Colors.black38,
+                        color: AppColors.lightNavyBlue,
                         borderRadius: BorderRadius.circular(30)
                     ),
                     child: Column(
@@ -354,7 +354,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     height: 260,
                     width: 10,
                     decoration: BoxDecoration(
-                        color: Colors.black38,
+                        color: AppColors.lightNavyBlue,
                         borderRadius: BorderRadius.circular(30)
                     ),
                     child: groupData == 'no_group'? Column(
